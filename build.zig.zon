@@ -1,0 +1,21 @@
+//بسم الله الرحمن الرحيم
+//la ilaha illa Allah Mohammed Rassoul Allah
+.{
+    .name = "quran-warch",
+
+    .version = "0.0.0",
+
+    .dependencies = .{
+        .sfml = .{
+            .url = "https://github.com/Guigui220D/zig-sfml-wrapper/archive/bf45217266fcbcda3075b0dad78edcdd6a0808bb.tar.gz",
+            .hash = "1220f0a3ec994b5fa60f9c81f03e71a83146357b8d48c4cd3663b4f9b60ac4466fd3",
+        },
+    },
+
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+        "res",
+        "src",
+    },
+}
