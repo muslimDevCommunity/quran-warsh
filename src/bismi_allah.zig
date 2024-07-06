@@ -15,9 +15,6 @@ const NUMBER_OF_PAGES: comptime_int = 604;
 fn embed_quran_pictures() [NUMBER_OF_PAGES][]const u8 {
     var quran_pictures: [NUMBER_OF_PAGES][]const u8 = undefined;
 
-    const cwd = std.fs.cwd();
-    defer cwd.close();
-
     var i: usize = 0;
     while (i < NUMBER_OF_PAGES) : (i += 1) {
         var file_name_buffer: [64]u8 = undefined;
@@ -30,14 +27,37 @@ fn embed_quran_pictures() [NUMBER_OF_PAGES][]const u8 {
         const file = @embedFile(file_name_slice);
         quran_pictures[i] = file;
     }
+
+    return quran_pictures;
 }
 
 const quran_pictures_arr = embed_quran_pictures();
 
 pub fn main() !void {
-    var window = try sf.RenderWindow.create(.{ .x = 600, .y = 900 }, 32, "مصحف التجويد لورش", sf.Style.defaultStyle, null);
+    var window = try sf.RenderWindow.create(.{ .x = 1000, .y = 1000 }, 32, "مصحف التجويد لورش", sf.Style.defaultStyle, null);
     defer window.destroy();
-    std.debug.print("alhamdo li Allah {d}\n", .{NUMBER_OF_PAGES});
+    window.setSize(.{ .x = 200, .y = 200 });
 
-    quran_pictures_arr[3][2] = 1;
+    var quran_texture = try sf.Texture.createFromMemory(quran_pictures_arr[0], .{ .top = 0, .left = 0, .width = 0, .height = 0 });
+    defer quran_texture.destroy();
+    quran_texture.setSmooth(true);
+
+    var quran_sprite = try sf.Sprite.createFromTexture(quran_texture);
+    defer quran_sprite.destroy();
+    quran_sprite.setScale(.{ .x = 0.5, .y = 0.5 });
+
+    while (window.isOpen()) {
+        while (window.pollEvent()) |event| switch (event) {
+            .closed => window.close(),
+            else => {
+                std.debug.print("alhamdo li Allah event {any}\n", .{event});
+            },
+        };
+
+        window.clear(sf.Color.Black);
+        defer window.display();
+
+        //drawnig by the will of Allah
+        window.draw(quran_sprite, null);
+    }
 }

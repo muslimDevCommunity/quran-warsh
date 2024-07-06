@@ -8,7 +8,7 @@ print("this script is to download all the images from the website")
 
 pages_count = 604
 
-for i in range(1, pages_count):
+for i in range(1, pages_count + 1):
     download_url = 'https://easyquran.com/wp-content/uploads/2022/10/' + str(i) + '-scaled.jpg'
     image_output_path = "src/res/" + str(i) + "-scaled.jpg"
 
