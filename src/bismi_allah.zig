@@ -59,22 +59,12 @@ pub fn main() !void {
 
     window.setSize(.{ .x = IMAGE_WIDTH / 2, .y = IMAGE_HEIGHT / 2 });
 
-    // var quran_texture = try sf.Texture.createFromMemory(quran_pictures_arr[3], .{ .top = 0, .left = 0, .width = 0, .height = 0 });
-    // // defer quran_texture.destroy();
-    // quran_texture.setSmooth(true);
-
     var quran_sprite = try sf.Sprite.create();
     defer quran_sprite.destroy();
     quran_sprite.setScale(.{ .x = 0.5, .y = 0.5 });
+
     try setPage(&quran_sprite, 3);
 
-    // while (window.isOpen()) {
-    // window.clear(sf.Color.Black);
-    // defer window.display();
-    // //drawnig by the will of Allah
-    // window.draw(quran_sprite, null);
-
-    // while (window.pollEvent()) |event| switch (event) {
     while (waitEvent(&window)) |event| {
         switch (event) {
             .closed => {
@@ -98,18 +88,6 @@ pub fn main() !void {
         //drawnig by the will of Allah
         window.draw(quran_sprite, null);
     }
-
-    // var event: sf.Event = undefined;
-    // while (0 != sf.c.sfWindow_waitEvent(window._ptr, &event)) {
-    //     std.debug.print("alahdmo li Allah event is: {any}\n", .{event});
-    // }
-
-    // window.clear(sf.Color.Black);
-    // defer window.display();
-
-    //drawnig by the will of Allah
-    // window.draw(quran_sprite, null);
-    //}
 }
 
 fn waitEvent(self: *sf.RenderWindow) ?sf.window.Event {
