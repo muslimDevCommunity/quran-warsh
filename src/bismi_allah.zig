@@ -10,7 +10,9 @@ const sf = struct {
     usingnamespace sfml.system;
 };
 
-const NUMBER_OF_PAGES: comptime_int = 604;
+const NUMBER_OF_PAGES = 604;
+const IMAGE_WIDTH = 1792;
+const IMAGE_HEIGHT = 2560;
 
 fn embed_quran_pictures() [NUMBER_OF_PAGES][]const u8 {
     var quran_pictures: [NUMBER_OF_PAGES][]const u8 = undefined;
@@ -32,32 +34,87 @@ fn embed_quran_pictures() [NUMBER_OF_PAGES][]const u8 {
 }
 
 const quran_pictures_arr = embed_quran_pictures();
+var current_page: usize = 0;
+
+fn setPage(sprite: *sf.Sprite, target_page: usize) !void {
+    if (current_page == target_page or target_page > NUMBER_OF_PAGES) return;
+
+    // {
+    //     var texture = sprite.getTexture();
+    //     if (null != texture) texture.?.destroy();
+    // }
+
+    sprite.setTexture(try sf.Texture.createFromMemory(quran_pictures_arr[target_page], .{ .top = 0, .left = 0, .width = 0, .height = 0 }));
+
+    current_page = target_page;
+}
 
 pub fn main() !void {
-    var window = try sf.RenderWindow.create(.{ .x = 1000, .y = 1000 }, 32, "مصحف التجويد لورش", sf.Style.defaultStyle, null);
+    // notes:
+    // image size: 1792x2560
+    var window = try sf.RenderWindow.create(.{ .x = IMAGE_WIDTH / 2, .y = IMAGE_HEIGHT / 2 }, 32, "مصحف التجويد لورش", sf.Style.defaultStyle, null);
     defer window.destroy();
-    window.setSize(.{ .x = 200, .y = 200 });
 
-    var quran_texture = try sf.Texture.createFromMemory(quran_pictures_arr[0], .{ .top = 0, .left = 0, .width = 0, .height = 0 });
-    defer quran_texture.destroy();
-    quran_texture.setSmooth(true);
+    window.setFramerateLimit(30);
 
-    var quran_sprite = try sf.Sprite.createFromTexture(quran_texture);
+    window.setSize(.{ .x = IMAGE_WIDTH / 2, .y = IMAGE_HEIGHT / 2 });
+
+    // var quran_texture = try sf.Texture.createFromMemory(quran_pictures_arr[3], .{ .top = 0, .left = 0, .width = 0, .height = 0 });
+    // // defer quran_texture.destroy();
+    // quran_texture.setSmooth(true);
+
+    var quran_sprite = try sf.Sprite.create();
     defer quran_sprite.destroy();
     quran_sprite.setScale(.{ .x = 0.5, .y = 0.5 });
+    try setPage(&quran_sprite, 3);
 
-    while (window.isOpen()) {
-        while (window.pollEvent()) |event| switch (event) {
-            .closed => window.close(),
+    // while (window.isOpen()) {
+    // window.clear(sf.Color.Black);
+    // defer window.display();
+    // //drawnig by the will of Allah
+    // window.draw(quran_sprite, null);
+
+    // while (window.pollEvent()) |event| switch (event) {
+    while (waitEvent(&window)) |event| {
+        switch (event) {
+            .closed => {
+                window.close();
+                break;
+            },
+            .key_pressed => {
+                if (event.key_pressed.code == .left and current_page < NUMBER_OF_PAGES) {
+                    try setPage(&quran_sprite, current_page + 1);
+                } else if (event.key_pressed.code == .right and current_page != 0) {
+                    try setPage(&quran_sprite, current_page - 1);
+                }
+            },
             else => {
                 std.debug.print("alhamdo li Allah event {any}\n", .{event});
             },
-        };
-
+        }
         window.clear(sf.Color.Black);
         defer window.display();
 
         //drawnig by the will of Allah
         window.draw(quran_sprite, null);
     }
+
+    // var event: sf.Event = undefined;
+    // while (0 != sf.c.sfWindow_waitEvent(window._ptr, &event)) {
+    //     std.debug.print("alahdmo li Allah event is: {any}\n", .{event});
+    // }
+
+    // window.clear(sf.Color.Black);
+    // defer window.display();
+
+    //drawnig by the will of Allah
+    // window.draw(quran_sprite, null);
+    //}
+}
+
+fn waitEvent(self: *sf.RenderWindow) ?sf.window.Event {
+    var event: sf.c.sfEvent = undefined;
+    if (sf.c.sfRenderWindow_waitEvent(self._ptr, &event) != 0) {
+        return sf.window.Event._fromCSFML(event);
+    } else return null;
 }
