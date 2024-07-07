@@ -82,12 +82,14 @@ pub fn main() !void {
                 std.debug.print("alhamdo li Allah event {any}\n", .{event});
             },
         }
+
         window.clear(sf.Color.Black);
         defer window.display();
 
         //drawnig by the will of Allah
         window.draw(quran_sprite, null);
     }
+    
 }
 
 fn waitEvent(self: *sf.RenderWindow) ?sf.window.Event {
