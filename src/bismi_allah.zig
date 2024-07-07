@@ -36,15 +36,16 @@ fn embed_quran_pictures() [NUMBER_OF_PAGES][]const u8 {
 const quran_pictures_arr = embed_quran_pictures();
 var current_page: usize = 0;
 
+/// sets the page diplayed starting from 1
 fn setPage(sprite: *sf.Sprite, target_page: usize) !void {
-    if (current_page == target_page or target_page > NUMBER_OF_PAGES) return;
+    if (current_page == target_page or target_page > NUMBER_OF_PAGES or 0 == target_page) return;
 
     // {
     //     var texture = sprite.getTexture();
     //     if (null != texture) texture.?.destroy();
     // }
 
-    sprite.setTexture(try sf.Texture.createFromMemory(quran_pictures_arr[target_page], .{ .top = 0, .left = 0, .width = 0, .height = 0 }));
+    sprite.setTexture(try sf.Texture.createFromMemory(quran_pictures_arr[target_page - 1], .{ .top = 0, .left = 0, .width = 0, .height = 0 }));
 
     current_page = target_page;
 }
@@ -63,7 +64,7 @@ pub fn main() !void {
     defer quran_sprite.destroy();
     quran_sprite.setScale(.{ .x = 0.5, .y = 0.5 });
 
-    try setPage(&quran_sprite, 3);
+    try setPage(&quran_sprite, 1);
 
     while (waitEvent(&window)) |event| {
         switch (event) {
@@ -78,8 +79,7 @@ pub fn main() !void {
                     try setPage(&quran_sprite, current_page - 1);
                 }
             },
-            else => {
-            },
+            else => {},
         }
 
         window.clear(sf.Color.Black);
@@ -88,7 +88,6 @@ pub fn main() !void {
         //drawnig by the will of Allah
         window.draw(quran_sprite, null);
     }
-    
 }
 
 fn waitEvent(self: *sf.RenderWindow) ?sf.window.Event {
