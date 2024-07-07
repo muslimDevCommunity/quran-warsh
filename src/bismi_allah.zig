@@ -79,7 +79,6 @@ pub fn main() !void {
                 }
             },
             else => {
-                std.debug.print("alhamdo li Allah event {any}\n", .{event});
             },
         }
 
