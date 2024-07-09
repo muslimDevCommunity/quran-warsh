@@ -19,7 +19,19 @@ pub fn build(b: *std.Build) void {
 
     const sfml_dep = b.dependency("sfml", .{});
     exe.root_module.addImport("sfml", sfml_dep.module("sfml"));
-    sfml.link(exe);
+    if (target.result.os.tag == .windows or target.result.isMinGW()) {
+        exe.linkLibC();
+
+        // exe.addIncludePath(b.path("libs/CSFML/include"));
+        sfml_dep.module("sfml").addIncludePath(b.path("libs/CSFML/include"));
+
+        exe.addObjectFile(b.path("libs/CSFML/lib/gcc/libcsfml-graphics.a"));
+        // exe.addObjectFile(b.path("libs/CSFML/bin/csfml-graphics.dll"));
+        // exe.addSystemIncludePath(b.path("libs/CSFML/bin"));
+        exe.subsystem = .Windows;
+    } else {
+        sfml.link(exe);
+    }
 
     const run_cmd = b.addRunArtifact(exe);
 

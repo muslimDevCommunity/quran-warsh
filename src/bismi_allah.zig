@@ -14,6 +14,8 @@ const NUMBER_OF_PAGES = 604;
 const IMAGE_WIDTH = 1792;
 const IMAGE_HEIGHT = 2560;
 
+// var flag_zoomed_in: bool = false;
+
 fn embed_quran_pictures() [NUMBER_OF_PAGES][]const u8 {
     var quran_pictures: [NUMBER_OF_PAGES][]const u8 = undefined;
 
@@ -40,12 +42,9 @@ var current_page: usize = 0;
 fn setPage(sprite: *sf.Sprite, target_page: usize) !void {
     if (current_page == target_page or target_page > NUMBER_OF_PAGES or 0 == target_page) return;
 
-    // {
-    //     var texture = sprite.getTexture();
-    //     if (null != texture) texture.?.destroy();
-    // }
-
     sprite.setTexture(try sf.Texture.createFromMemory(quran_pictures_arr[target_page - 1], .{ .top = 0, .left = 0, .width = 0, .height = 0 }));
+    // sprite.setTextureRect(sf.IntRect.init(393, 170, 1360, 2184));
+    // sprite.setTextureRect(sf.IntRect.init(196, 85, 680, 1542));
 
     current_page = target_page;
 }
@@ -78,6 +77,10 @@ pub fn main() !void {
                 } else if (event.key_pressed.code == .right and current_page != 0) {
                     try setPage(&quran_sprite, current_page - 1);
                 }
+
+                // if (event.key_pressed.code == .I) {
+                //     flag_zoomed_in = !flag_zoomed_in;
+                // }
             },
             else => {},
         }
