@@ -44,6 +44,8 @@ jobs:
 
       - name: Upload compressed binary to release
         uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.get_release.outputs.upload_url }}
           asset_path: quran-warsh_${{ steps.get_release.outputs.tag_name }}_win64.zip
