@@ -16,6 +16,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Get release
+        id: get_release
+        uses: bruceadams/get-release@v1.3.2
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
       - name: Install Zig
         uses: goto-bus-stop/setup-zig@v2
         with:
@@ -27,41 +33,20 @@ jobs:
       - name: Copy CSFML DLL
         run: cp libs/CSFML/bin/csfml-graphics-2.dll .
 
-      - name: Set version and platform
-        id: vars
-        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
-
       - name: Compress binary and DLL
-        run: zip quran-warsh_${{ env.RELEASE_VERSION }}_win64.zip zig-out/bin/* csfml-graphics-2.dll
+        run: zip quran-warsh_${{ steps.get_release.outputs.tag_name }}_win64.zip zig-out/bin/* csfml-graphics-2.dll
 
-      - name: Upload compressed binary
-        uses: actions/upload-artifact@v2
-        with:
-          name: quran-warsh
-          path: quran-warsh_${{ env.RELEASE_VERSION }}_win64.zip
-
-      # - name: Get release information
-      #   id: get_release
-      #   uses: actions/github-script@v4
+      # - name: Upload compressed binary
+      #   uses: actions/upload-artifact@v2
       #   with:
-      #     # const { context } = require('@actions/github');
-      #     script: |
-      #       return {
-      #         upload_url: context.payload.release.upload_url,
-      #         release_id: context.payload.release.id,
-      #       };
-
-      - name: Get release
-        id: get_release
-        uses: bruceadams/get-release@v1.3.2
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
+      #     name: quran-warsh
+      #     path: quran-warsh_${{ env.RELEASE_VERSION }}_win64.zip
 
       - name: Upload compressed binary to release
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.get_release.outputs.upload_url }}
-          asset_path: quran-warsh_${{ env.RELEASE_VERSION }}_${{ env.PLATFORM }}.zip
-          asset_name: quran-warsh_${{ env.RELEASE_VERSION }}_${{ env.PLATFORM }}.zip
+          asset_path: quran-warsh_${{ steps.get_release.outputs.tag_name }}_win64.zip
+          asset_name: quran-warsh_${{ steps.get_release.outputs.tag_name }}_win64.zip
           asset_content_type: application/zip
 
