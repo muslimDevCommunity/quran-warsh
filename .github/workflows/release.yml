@@ -40,22 +40,22 @@ jobs:
           name: quran-warsh
           path: quran-warsh_${{ env.RELEASE_VERSION }}_${{ env.PLATFORM }}.zip
 
-      - name: Get release information
-        id: get_release
-        uses: actions/github-script@v4
-        with:
-          script: |
-            const { context } = require('@actions/github');
-            return {
-              upload_url: context.payload.release.upload_url,
-              release_id: context.payload.release.id,
-            };
-
-      - name: Upload compressed binary to release
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ steps.get_release.outputs.upload_url }}
-          asset_path: quran-warsh_${{ env.RELEASE_VERSION }}_${{ env.PLATFORM }}.zip
-          asset_name: quran-warsh_${{ env.RELEASE_VERSION }}_${{ env.PLATFORM }}.zip
-          asset_content_type: application/zip
-
+      # - name: Get release information
+      #   id: get_release
+      #   uses: actions/github-script@v4
+      #   with:
+      #     script: |
+      #       const { context } = require('@actions/github');
+      #       return {
+      #         upload_url: context.payload.release.upload_url,
+      #         release_id: context.payload.release.id,
+      #       };
+      #
+      # - name: Upload compressed binary to release
+      #   uses: actions/upload-release-asset@v1
+      #   with:
+      #     upload_url: ${{ steps.get_release.outputs.upload_url }}
+      #     asset_path: quran-warsh_${{ env.RELEASE_VERSION }}_${{ env.PLATFORM }}.zip
+      #     asset_name: quran-warsh_${{ env.RELEASE_VERSION }}_${{ env.PLATFORM }}.zip
+      #     asset_content_type: application/zip
+      #
