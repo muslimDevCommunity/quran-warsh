@@ -65,31 +65,35 @@ pub fn main() !void {
 
     try setPage(&quran_sprite, 1);
 
-    while (waitEvent(&window)) |event| {
-        switch (event) {
-            .closed => {
-                window.close();
-                break;
-            },
-            .key_pressed => {
-                if (event.key_pressed.code == .left and current_page < NUMBER_OF_PAGES) {
-                    try setPage(&quran_sprite, current_page + 1);
-                } else if (event.key_pressed.code == .right and current_page != 0) {
-                    try setPage(&quran_sprite, current_page - 1);
-                }
+    var app_running: bool = true;
+    while (window.isOpen() and app_running) {
+        while (waitEvent(&window)) |event| {
+            switch (event) {
+                .closed => {
+                    window.close();
+                    app_running = false;
+                    break;
+                },
+                .key_pressed => {
+                    if (event.key_pressed.code == .left and current_page < NUMBER_OF_PAGES) {
+                        try setPage(&quran_sprite, current_page + 1);
+                    } else if (event.key_pressed.code == .right and current_page != 0) {
+                        try setPage(&quran_sprite, current_page - 1);
+                    }
 
-                // if (event.key_pressed.code == .I) {
-                //     flag_zoomed_in = !flag_zoomed_in;
-                // }
-            },
-            else => {},
+                    // if (event.key_pressed.code == .I) {
+                    //     flag_zoomed_in = !flag_zoomed_in;
+                    // }
+                },
+                else => {},
+            }
+
+            window.clear(sf.Color.Black);
+            defer window.display();
+
+            //drawnig by the will of Allah
+            window.draw(quran_sprite, null);
         }
-
-        window.clear(sf.Color.Black);
-        defer window.display();
-
-        //drawnig by the will of Allah
-        window.draw(quran_sprite, null);
     }
 }
 
