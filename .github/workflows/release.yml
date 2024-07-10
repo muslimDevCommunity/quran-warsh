@@ -1,0 +1,61 @@
+# بسم الله الرحمن الرحيم
+# la ilaha illa Allah Mohammed Rassoul Allah
+
+# alhamdo li Allah this was made by 'ChatGPT'
+name: Compile, Compress, and Attach to Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Zig
+        uses: ice1000/zig-setup-action@v1
+        with:
+          version: 0.13.0  # Specify the Zig version 0.13.0
+
+      - name: Compile Zig project
+        run: zig build -Dtarget=x86_64-windows
+
+      - name: Copy CSFML DLL
+        run: cp libs/CSFML/bin/csfml-graphics-2.dll .
+
+      - name: Set version and platform
+        id: vars
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/tags/} PLATFORM=win64" >> $GITHUB_ENV
+
+      - name: Compress binary and DLL
+        run: zip quran-warsh_${{ env.RELEASE_VERSION }}_${{ env.PLATFORM }}.zip zig-out/bin/* csfml-graphics-2.dll
+
+      - name: Upload compressed binary
+        uses: actions/upload-artifact@v2
+        with:
+          name: quran-warsh
+          path: quran-warsh_${{ env.RELEASE_VERSION }}_${{ env.PLATFORM }}.zip
+
+      - name: Get release information
+        id: get_release
+        uses: actions/github-script@v4
+        with:
+          script: |
+            const { context } = require('@actions/github');
+            return {
+              upload_url: context.payload.release.upload_url,
+              release_id: context.payload.release.id,
+            };
+
+      - name: Upload compressed binary to release
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.get_release.outputs.upload_url }}
+          asset_path: quran-warsh_${{ env.RELEASE_VERSION }}_${{ env.PLATFORM }}.zip
+          asset_name: quran-warsh_${{ env.RELEASE_VERSION }}_${{ env.PLATFORM }}.zip
+          asset_content_type: application/zip
+
