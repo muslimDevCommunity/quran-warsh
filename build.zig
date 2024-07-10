@@ -9,7 +9,7 @@ pub fn build(b: *std.Build) void {
     const optimize = b.standardOptimizeOption(.{});
 
     const exe = b.addExecutable(.{
-        .name = "quran-warch",
+        .name = "quran-warsh",
         .root_source_file = b.path("src/bismi_allah.zig"),
         .target = target,
         .optimize = optimize,

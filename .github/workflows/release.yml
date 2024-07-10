@@ -30,17 +30,8 @@ jobs:
       - name: Compile Zig project
         run: zig build -Dtarget=x86_64-windows
 
-      - name: Copy CSFML DLL
-        run: cp libs/CSFML/bin/csfml-graphics-2.dll .
-
       - name: Compress binary and DLL
-        run: zip quran-warsh_${{ steps.get_release.outputs.tag_name }}_win64.zip zig-out/bin/* csfml-graphics-2.dll
-
-      # - name: Upload compressed binary
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: quran-warsh
-      #     path: quran-warsh_${{ env.RELEASE_VERSION }}_win64.zip
+        run: zip quran-warsh_${{ steps.get_release.outputs.tag_name }}_win64.zip zig-out/bin/quran-warsh.exe quran-warsh.pdb libs/CSFML/bin/csfml-graphics-2.dll
 
       - name: Upload compressed binary to release
         uses: actions/upload-release-asset@v1
