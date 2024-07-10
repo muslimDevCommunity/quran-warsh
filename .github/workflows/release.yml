@@ -28,7 +28,7 @@ jobs:
           version: 0.13.0
 
       - name: Compile Zig project
-        run: zig build -Dtarget=x86_64-windows
+        run: zig build #-Dtarget=x86_64-windows
 
       - name: Compress binary and DLL
         run: zip -j quran-warsh_${{ steps.get_release.outputs.tag_name }}_win64.zip zig-out/bin/quran-warsh.exe zig-out/bin/quran-warsh.pdb libs/CSFML/bin/csfml-graphics-2.dll
