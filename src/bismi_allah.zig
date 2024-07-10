@@ -50,6 +50,7 @@ fn setPage(sprite: *sf.Sprite, target_page: usize) !void {
 }
 
 pub fn main() !void {
+    std.debug.print("بسم الله الرحمن الرحيم\n", .{});
     // notes:
     // image size: 1792x2560
     var window = try sf.RenderWindow.create(.{ .x = IMAGE_WIDTH / 2, .y = IMAGE_HEIGHT / 2 }, 32, "مصحف التجويد لورش", sf.Style.defaultStyle, null);
@@ -91,6 +92,7 @@ pub fn main() !void {
         //drawnig by the will of Allah
         window.draw(quran_sprite, null);
     }
+    std.debug.print("alhamdo li Allah git out of the loop\n", .{});
 }
 
 fn waitEvent(self: *sf.RenderWindow) ?sf.window.Event {
