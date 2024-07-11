@@ -53,7 +53,7 @@ fn setPage(sprite: *sf.Sprite, target_page: usize) !void {
 pub fn main() !void {
     // notes:
     // image size: 1792x2560
-    var window = try sf.RenderWindow.create(.{ .x = IMAGE_WIDTH / 2, .y = IMAGE_HEIGHT / 2 }, 16, "quran warsh - tajweed", sf.Style.defaultStyle, null);
+    var window = try sf.RenderWindow.create(.{ .x = IMAGE_WIDTH / 2, .y = IMAGE_HEIGHT / 2 }, 16, "quran warsh - tajweed quran", sf.Style.defaultStyle, null);
     defer window.destroy();
 
     window.setFramerateLimit(30);
