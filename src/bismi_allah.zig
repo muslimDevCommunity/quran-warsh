@@ -41,9 +41,9 @@ var current_page: usize = 0;
 /// sets the page diplayed starting from 1
 fn setPage(sprite: *sf.Sprite, target_page: usize) !void {
     if (current_page == target_page or target_page > NUMBER_OF_PAGES or 0 == target_page) return;
-    
+
     sprite.setTexture(try sf.Texture.createFromMemory(quran_pictures_arr[target_page - 1], .{ .top = 0, .left = 0, .width = 0, .height = 0 }));
-   
+
     // sprite.setTextureRect(sf.IntRect.init(393, 170, 1360, 2184));
     // sprite.setTextureRect(sf.IntRect.init(196, 85, 680, 1542));
 
@@ -53,7 +53,7 @@ fn setPage(sprite: *sf.Sprite, target_page: usize) !void {
 pub fn main() !void {
     // notes:
     // image size: 1792x2560
-    var window = try sf.RenderWindow.create(.{ .x = IMAGE_WIDTH / 2, .y = IMAGE_HEIGHT / 2 }, 32, "مصحف التجويد لورش", sf.Style.defaultStyle, null);
+    var window = try sf.RenderWindow.create(.{ .x = IMAGE_WIDTH / 2, .y = IMAGE_HEIGHT / 2 }, 16, "quran warsh - tajweed", sf.Style.defaultStyle, null);
     defer window.destroy();
 
     window.setFramerateLimit(30);
