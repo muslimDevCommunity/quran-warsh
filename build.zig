@@ -21,12 +21,13 @@ pub fn build(b: *std.Build) void {
     exe.root_module.addImport("sfml", sfml_dep.module("sfml"));
     if (target.result.os.tag == .windows or target.result.isMinGW()) {
         exe.linkLibC();
+        // exe.linkLibCpp(); will wait to know if it is really needed
 
         // exe.addIncludePath(b.path("libs/CSFML/include"));
         sfml_dep.module("sfml").addIncludePath(b.path("libs/CSFML/include"));
 
-        exe.addObjectFile(b.path("libs/CSFML/lib/gcc/libcsfml-graphics.a"));
-        // exe.addObjectFile(b.path("libs/CSFML/bin/csfml-graphics.dll"));
+        // exe.addObjectFile(b.path("libs/CSFML/lib/gcc/libcsfml-graphics.a"));
+        exe.addObjectFile(b.path("libs/CSFML/bin/csfml-graphics.dll"));
         // exe.addSystemIncludePath(b.path("libs/CSFML/bin"));
         exe.subsystem = .Windows;
     } else {
