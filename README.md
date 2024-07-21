@@ -3,7 +3,7 @@ la ilaha illa Allah Mohammed Rassoul Allah
 
 this is a desktop app for مصحف التجويد الملون
 
-the files where git from [Tajweed Quran - دار المعرفة](https://easyquran.com/ar/) from [these links](https://easyquran.com/wp-content/uploads/2022/10/1-scaled.jpg)
+the files were got from [Tajweed Quran - دار المعرفة](https://easyquran.com/ar/) from [these links](https://easyquran.com/wp-content/uploads/2022/10/1-scaled.jpg)
 
 # building
 install `zig 0.13`
