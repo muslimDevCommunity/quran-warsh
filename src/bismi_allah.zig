@@ -68,57 +68,52 @@ pub fn main() !void {
 
     try setPage(&quran_sprite, 1);
 
-    var app_running: bool = true;
-    while (window.isOpen() and app_running) {
-        while (waitEvent(&window)) |event| {
-            switch (event) {
-                .closed => {
-                    window.close();
-                    app_running = false;
-                    break;
-                },
-                .key_pressed => {
-                    if (event.key_pressed.code == .left and current_page < NUMBER_OF_PAGES) {
-                        try setPage(&quran_sprite, current_page + 1);
-                    } else if (event.key_pressed.code == .right and current_page != 0) {
-                        try setPage(&quran_sprite, current_page - 1);
-                    } else if (!event.key_pressed.shift) {
-                        if (event.key_pressed.code == .num0) setPage(&quran_sprite, bookmarks[0]) catch {};
-                        if (event.key_pressed.code == .num1) setPage(&quran_sprite, bookmarks[1]) catch {};
-                        if (event.key_pressed.code == .num2) setPage(&quran_sprite, bookmarks[2]) catch {};
-                        if (event.key_pressed.code == .num3) setPage(&quran_sprite, bookmarks[3]) catch {};
-                        if (event.key_pressed.code == .num4) setPage(&quran_sprite, bookmarks[4]) catch {};
-                        if (event.key_pressed.code == .num5) setPage(&quran_sprite, bookmarks[5]) catch {};
-                        if (event.key_pressed.code == .num6) setPage(&quran_sprite, bookmarks[6]) catch {};
-                        if (event.key_pressed.code == .num7) setPage(&quran_sprite, bookmarks[7]) catch {};
-                        if (event.key_pressed.code == .num8) setPage(&quran_sprite, bookmarks[8]) catch {};
-                        if (event.key_pressed.code == .num9) setPage(&quran_sprite, bookmarks[9]) catch {};
-                    } else if (event.key_pressed.shift) {
-                        if (event.key_pressed.code == .num0) bookmarks[0] = current_page;
-                        if (event.key_pressed.code == .num1) bookmarks[1] = current_page;
-                        if (event.key_pressed.code == .num2) bookmarks[2] = current_page;
-                        if (event.key_pressed.code == .num3) bookmarks[3] = current_page;
-                        if (event.key_pressed.code == .num4) bookmarks[4] = current_page;
-                        if (event.key_pressed.code == .num5) bookmarks[5] = current_page;
-                        if (event.key_pressed.code == .num6) bookmarks[6] = current_page;
-                        if (event.key_pressed.code == .num7) bookmarks[7] = current_page;
-                        if (event.key_pressed.code == .num8) bookmarks[8] = current_page;
-                        if (event.key_pressed.code == .num9) bookmarks[9] = current_page;
-                    }
+    while (waitEvent(&window)) |event| {
+        switch (event) {
+            .closed => {
+                window.close();
+            },
+            .key_pressed => {
+                if (event.key_pressed.code == .left and current_page < NUMBER_OF_PAGES) {
+                    try setPage(&quran_sprite, current_page + 1);
+                } else if (event.key_pressed.code == .right and current_page != 0) {
+                    try setPage(&quran_sprite, current_page - 1);
+                } else if (!event.key_pressed.shift) {
+                    if (event.key_pressed.code == .num0) setPage(&quran_sprite, bookmarks[0]) catch {};
+                    if (event.key_pressed.code == .num1) setPage(&quran_sprite, bookmarks[1]) catch {};
+                    if (event.key_pressed.code == .num2) setPage(&quran_sprite, bookmarks[2]) catch {};
+                    if (event.key_pressed.code == .num3) setPage(&quran_sprite, bookmarks[3]) catch {};
+                    if (event.key_pressed.code == .num4) setPage(&quran_sprite, bookmarks[4]) catch {};
+                    if (event.key_pressed.code == .num5) setPage(&quran_sprite, bookmarks[5]) catch {};
+                    if (event.key_pressed.code == .num6) setPage(&quran_sprite, bookmarks[6]) catch {};
+                    if (event.key_pressed.code == .num7) setPage(&quran_sprite, bookmarks[7]) catch {};
+                    if (event.key_pressed.code == .num8) setPage(&quran_sprite, bookmarks[8]) catch {};
+                    if (event.key_pressed.code == .num9) setPage(&quran_sprite, bookmarks[9]) catch {};
+                } else if (event.key_pressed.shift) {
+                    if (event.key_pressed.code == .num0) bookmarks[0] = current_page;
+                    if (event.key_pressed.code == .num1) bookmarks[1] = current_page;
+                    if (event.key_pressed.code == .num2) bookmarks[2] = current_page;
+                    if (event.key_pressed.code == .num3) bookmarks[3] = current_page;
+                    if (event.key_pressed.code == .num4) bookmarks[4] = current_page;
+                    if (event.key_pressed.code == .num5) bookmarks[5] = current_page;
+                    if (event.key_pressed.code == .num6) bookmarks[6] = current_page;
+                    if (event.key_pressed.code == .num7) bookmarks[7] = current_page;
+                    if (event.key_pressed.code == .num8) bookmarks[8] = current_page;
+                    if (event.key_pressed.code == .num9) bookmarks[9] = current_page;
+                }
 
-                    // if (event.key_pressed.code == .I) {
-                    //     flag_zoomed_in = !flag_zoomed_in;
-                    // }
-                },
-                else => {},
-            }
-
-            window.clear(sf.Color.Black);
-            defer window.display();
-
-            //drawnig by the will of Allah
-            window.draw(quran_sprite, null);
+                // if (event.key_pressed.code == .I) {
+                //     flag_zoomed_in = !flag_zoomed_in;
+                // }
+            },
+            else => {},
         }
+
+        window.clear(sf.Color.Black);
+        defer window.display();
+
+        //drawnig by the will of Allah
+        window.draw(quran_sprite, null);
     }
 }
 
