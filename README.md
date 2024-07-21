@@ -10,6 +10,11 @@ install `zig 0.13`
 run the command `zig build` which puts the resulted binary in `zig-out`
 and `zig build run` to run the app
 
+# Usage
+- `<-` left arrow: next page
+- `->` right arrow: previous page
+- `0-9`: goto bookmark
+- `Shift`+`0-9`: set bookmark to current page
 
 ## dependencies
 known dependencies are `csfml`

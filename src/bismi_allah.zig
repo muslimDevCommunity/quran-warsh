@@ -38,6 +38,8 @@ fn embed_quran_pictures() [NUMBER_OF_PAGES][]const u8 {
 const quran_pictures_arr = embed_quran_pictures();
 var current_page: usize = 0;
 
+var bookmarks: [10]usize = [1]usize{0} ** 10;
+
 /// sets the page diplayed starting from 1
 fn setPage(sprite: *sf.Sprite, target_page: usize) !void {
     if (current_page == target_page or target_page > NUMBER_OF_PAGES or 0 == target_page) return;
@@ -80,6 +82,28 @@ pub fn main() !void {
                         try setPage(&quran_sprite, current_page + 1);
                     } else if (event.key_pressed.code == .right and current_page != 0) {
                         try setPage(&quran_sprite, current_page - 1);
+                    } else if (!event.key_pressed.shift) {
+                        if (event.key_pressed.code == .num0) setPage(&quran_sprite, bookmarks[0]) catch {};
+                        if (event.key_pressed.code == .num1) setPage(&quran_sprite, bookmarks[1]) catch {};
+                        if (event.key_pressed.code == .num2) setPage(&quran_sprite, bookmarks[2]) catch {};
+                        if (event.key_pressed.code == .num3) setPage(&quran_sprite, bookmarks[3]) catch {};
+                        if (event.key_pressed.code == .num4) setPage(&quran_sprite, bookmarks[4]) catch {};
+                        if (event.key_pressed.code == .num5) setPage(&quran_sprite, bookmarks[5]) catch {};
+                        if (event.key_pressed.code == .num6) setPage(&quran_sprite, bookmarks[6]) catch {};
+                        if (event.key_pressed.code == .num7) setPage(&quran_sprite, bookmarks[7]) catch {};
+                        if (event.key_pressed.code == .num8) setPage(&quran_sprite, bookmarks[8]) catch {};
+                        if (event.key_pressed.code == .num9) setPage(&quran_sprite, bookmarks[9]) catch {};
+                    } else if (event.key_pressed.shift) {
+                        if (event.key_pressed.code == .num0) bookmarks[0] = current_page;
+                        if (event.key_pressed.code == .num1) bookmarks[1] = current_page;
+                        if (event.key_pressed.code == .num2) bookmarks[2] = current_page;
+                        if (event.key_pressed.code == .num3) bookmarks[3] = current_page;
+                        if (event.key_pressed.code == .num4) bookmarks[4] = current_page;
+                        if (event.key_pressed.code == .num5) bookmarks[5] = current_page;
+                        if (event.key_pressed.code == .num6) bookmarks[6] = current_page;
+                        if (event.key_pressed.code == .num7) bookmarks[7] = current_page;
+                        if (event.key_pressed.code == .num8) bookmarks[8] = current_page;
+                        if (event.key_pressed.code == .num9) bookmarks[9] = current_page;
                     }
 
                     // if (event.key_pressed.code == .I) {
