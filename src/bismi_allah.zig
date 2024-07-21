@@ -53,7 +53,7 @@ fn setPage(sprite: *sf.Sprite, target_page: usize) !void {
 pub fn main() !void {
     // notes:
     // image size: 1792x2560
-    var window = try sf.RenderWindow.create(.{ .x = IMAGE_WIDTH / 2, .y = IMAGE_HEIGHT / 2 }, 16, "quran warsh - tajweed quran", sf.Style.defaultStyle, null);
+    var window = try sf.RenderWindow.create(.{ .x = IMAGE_WIDTH, .y = IMAGE_HEIGHT }, 64, "quran warsh - tajweed quran", sf.Style.defaultStyle, null);
     defer window.destroy();
 
     window.setFramerateLimit(30);
@@ -62,7 +62,7 @@ pub fn main() !void {
 
     var quran_sprite = try sf.Sprite.create();
     defer quran_sprite.destroy();
-    quran_sprite.setScale(.{ .x = 0.5, .y = 0.5 });
+    // quran_sprite.setScale(.{ .x = 0.5, .y = 0.5 });
 
     try setPage(&quran_sprite, 1);
 
