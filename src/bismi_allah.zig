@@ -68,7 +68,8 @@ pub fn main() !void {
 
     try setPage(&quran_sprite, 1);
 
-    while (waitEvent(&window)) |event| {
+    // while (waitEvent(&window)) |event| {
+    while (window.waitEvent()) |event| {
         switch (event) {
             .closed => {
                 window.close();
