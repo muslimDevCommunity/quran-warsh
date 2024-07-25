@@ -68,7 +68,6 @@ pub fn main() !void {
 
     try setPage(&quran_sprite, 1);
 
-    // while (waitEvent(&window)) |event| {
     while (window.waitEvent()) |event| {
         switch (event) {
             .closed => {
@@ -116,11 +115,4 @@ pub fn main() !void {
         //drawnig by the will of Allah
         window.draw(quran_sprite, null);
     }
-}
-
-fn waitEvent(self: *sf.RenderWindow) ?sf.window.Event {
-    var event: sf.c.sfEvent = undefined;
-    if (sf.c.sfRenderWindow_waitEvent(self._ptr, &event) != 0) {
-        return sf.window.Event._fromCSFML(event);
-    } else return null;
 }
