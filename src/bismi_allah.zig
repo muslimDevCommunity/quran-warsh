@@ -40,6 +40,9 @@ var current_page: usize = 0;
 
 var bookmarks: [10]usize = [1]usize{0} ** 10;
 
+/// list of the number of pages every surah starts with
+const surah_start_pages_list: [114]usize = [_]usize{ 1, 2, 50, 77, 106, 128, 151, 177, 187, 208, 221, 235, 249, 255, 262, 267, 282, 293, 305, 312, 322, 332, 342, 350, 359, 367, 377, 385, 396, 404, 411, 415, 418, 428, 434, 440, 446, 453, 458, 467, 477, 483, 489, 496, 499, 502, 507, 511, 515, 518, 520, 523, 526, 528, 531, 534, 537, 542, 545, 549, 551, 553, 554, 556, 558, 560, 562, 564, 566, 568, 570, 572, 574, 575, 577, 578, 580, 582, 583, 585, 586, 587, 587, 589, 590, 591, 591, 592, 593, 594, 595, 595, 596, 596, 597, 597, 598, 598, 599, 599, 600, 600, 601, 601, 601, 602, 602, 602, 603, 603, 603, 604, 604, 604 };
+
 /// sets the page diplayed starting from 1
 fn setPage(sprite: *sf.Sprite, target_page: usize) !void {
     if (current_page == target_page or target_page > NUMBER_OF_PAGES or 0 == target_page) return;
@@ -50,6 +53,36 @@ fn setPage(sprite: *sf.Sprite, target_page: usize) !void {
     // sprite.setTextureRect(sf.IntRect.init(196, 85, 680, 1542));
 
     current_page = target_page;
+}
+
+fn getCurrentSurahIndex() usize {
+    var i: usize = 0;
+    while (i < surah_start_pages_list.len) : (i += 1) {
+        if (current_page <= surah_start_pages_list[i]) return i;
+    }
+    return 0;
+}
+
+fn setPageToNextSurah(sprite: *sf.Sprite) !void {
+    const current_surah_index = getCurrentSurahIndex();
+    const starting_page = current_page;
+    if (current_page == NUMBER_OF_PAGES) {
+        try setPage(sprite, 1);
+    } else {
+        try setPage(sprite, surah_start_pages_list[current_surah_index + 1]);
+        if (starting_page == current_page) {
+            try setPage(sprite, current_page + 1);
+        }
+    }
+}
+
+fn setPageToPreviousSurah(sprite: *sf.Sprite) !void {
+    const current_surah_index = getCurrentSurahIndex();
+    if (current_surah_index == 0) {
+        try setPage(sprite, surah_start_pages_list[surah_start_pages_list.len - 1]);
+    } else {
+        try setPage(sprite, surah_start_pages_list[current_surah_index - 1]);
+    }
 }
 
 pub fn main() !void {
@@ -74,10 +107,18 @@ pub fn main() !void {
                 window.close();
             },
             .key_pressed => {
-                if (event.key_pressed.code == .left and current_page < NUMBER_OF_PAGES) {
-                    try setPage(&quran_sprite, current_page + 1);
+                if (event.key_pressed.code == .left) {
+                    if (event.key_pressed.shift) {
+                        setPageToNextSurah(&quran_sprite) catch {};
+                    } else if (current_page < NUMBER_OF_PAGES) {
+                        try setPage(&quran_sprite, current_page + 1);
+                    }
                 } else if (event.key_pressed.code == .right and current_page != 0) {
-                    try setPage(&quran_sprite, current_page - 1);
+                    if (event.key_pressed.shift) {
+                        setPageToPreviousSurah(&quran_sprite) catch {};
+                    } else {
+                        try setPage(&quran_sprite, current_page - 1);
+                    }
                 } else if (!event.key_pressed.shift) {
                     if (event.key_pressed.code == .num0) setPage(&quran_sprite, bookmarks[0]) catch {};
                     if (event.key_pressed.code == .num1) setPage(&quran_sprite, bookmarks[1]) catch {};
@@ -114,5 +155,12 @@ pub fn main() !void {
 
         //drawnig by the will of Allah
         window.draw(quran_sprite, null);
+    }
+}
+
+test "surah start pages list is ordered" {
+    var i: usize = 0;
+    while (i < surah_start_pages_list.len - 1) : (i += 1) {
+        std.debug.assert(surah_start_pages_list[i] <= surah_start_pages_list[i + 1]);
     }
 }
