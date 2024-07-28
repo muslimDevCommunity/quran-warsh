@@ -42,6 +42,7 @@ var bookmarks: [10]usize = [1]usize{0} ** 10;
 
 /// list of the number of pages every surah starts with
 const surah_start_pages_list: [114]usize = [_]usize{ 1, 2, 50, 77, 106, 128, 151, 177, 187, 208, 221, 235, 249, 255, 262, 267, 282, 293, 305, 312, 322, 332, 342, 350, 359, 367, 377, 385, 396, 404, 411, 415, 418, 428, 434, 440, 446, 453, 458, 467, 477, 483, 489, 496, 499, 502, 507, 511, 515, 518, 520, 523, 526, 528, 531, 534, 537, 542, 545, 549, 551, 553, 554, 556, 558, 560, 562, 564, 566, 568, 570, 572, 574, 575, 577, 578, 580, 582, 583, 585, 586, 587, 587, 589, 590, 591, 591, 592, 593, 594, 595, 595, 596, 596, 597, 597, 598, 598, 599, 599, 600, 600, 601, 601, 601, 602, 602, 602, 603, 603, 603, 604, 604, 604 };
+const hizb_start_pages_list: [60]usize = [60]usize{ 1, 11, 22, 32, 43, 51, 62, 72, 82, 92, 102, 111, 121, 132, 142, 151, 162, 173, 182, 192, 201, 212, 222, 231, 242, 252, 262, 272, 282, 292, 302, 312, 322, 332, 342, 352, 362, 371, 382, 392, 402, 413, 422, 431, 442, 451, 462, 472, 482, 491, 502, 513, 522, 531, 542, 553, 562, 572, 582, 591 };
 
 /// sets the page diplayed starting from 1
 fn setPage(sprite: *sf.Sprite, target_page: usize) !void {
@@ -85,6 +86,36 @@ fn setPageToPreviousSurah(sprite: *sf.Sprite) !void {
     }
 }
 
+fn getCurrentHizbIndex() usize {
+    var i: usize = 0;
+    while (i < hizb_start_pages_list.len) : (i += 1) {
+        if (current_page <= hizb_start_pages_list[i]) return i;
+    }
+    return 0;
+}
+
+fn setPageToNextHizb(sprite: *sf.Sprite) !void {
+    const current_hizb_index = getCurrentHizbIndex();
+    const starting_page = current_page;
+    if (current_hizb_index == 59) {
+        try setPage(sprite, 1);
+    } else {
+        try setPage(sprite, hizb_start_pages_list[current_hizb_index + 1]);
+        if (starting_page == current_page) {
+            try setPage(sprite, current_page + 1);
+        }
+    }
+}
+
+fn setPageToPreviousHizb(sprite: *sf.Sprite) !void {
+    const current_hizb_index = getCurrentHizbIndex();
+    if (current_hizb_index == 0) {
+        try setPage(sprite, hizb_start_pages_list[hizb_start_pages_list.len - 1]);
+    } else {
+        try setPage(sprite, hizb_start_pages_list[current_hizb_index - 1]);
+    }
+}
+
 pub fn main() !void {
     // notes:
     // image size: 1792x2560
@@ -110,12 +141,16 @@ pub fn main() !void {
                 if (event.key_pressed.code == .left) {
                     if (event.key_pressed.shift) {
                         setPageToNextSurah(&quran_sprite) catch {};
+                    } else if (event.key_pressed.control) {
+                        setPageToNextHizb(&quran_sprite) catch {};
                     } else if (current_page < NUMBER_OF_PAGES) {
                         try setPage(&quran_sprite, current_page + 1);
                     }
                 } else if (event.key_pressed.code == .right and current_page != 0) {
                     if (event.key_pressed.shift) {
                         setPageToPreviousSurah(&quran_sprite) catch {};
+                    } else if (event.key_pressed.control) {
+                        setPageToPreviousHizb(&quran_sprite) catch {};
                     } else {
                         try setPage(&quran_sprite, current_page - 1);
                     }
@@ -162,5 +197,12 @@ test "surah start pages list is ordered" {
     var i: usize = 0;
     while (i < surah_start_pages_list.len - 1) : (i += 1) {
         std.debug.assert(surah_start_pages_list[i] <= surah_start_pages_list[i + 1]);
+    }
+}
+
+test "hizb start pages list is ordered" {
+    var i: usize = 0;
+    while (i < hizb_start_pages_list.len - 1) : (i += 1) {
+        std.debug.assert(hizb_start_pages_list[i] <= hizb_start_pages_list[i + 1]);
     }
 }
