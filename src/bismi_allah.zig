@@ -58,7 +58,7 @@ pub fn main() !void {
     defer quran_sprite.destroy();
     // quran_sprite.setScale(.{ .x = 0.5, .y = 0.5 });
 
-    try setPage(&quran_sprite, 1);
+    setPage(&quran_sprite, 1);
 
     while (window.waitEvent()) |event| {
         switch (event) {
@@ -68,8 +68,8 @@ pub fn main() !void {
             .key_pressed => {
                 if (event.key_pressed.shift) {
                     switch (event.key_pressed.code) {
-                        .left => setPageToNextSurah(&quran_sprite) catch {},
-                        .right => setPageToPreviousSurah(&quran_sprite) catch {},
+                        .left => setPageToNextSurah(&quran_sprite),
+                        .right => setPageToPreviousSurah(&quran_sprite),
                         .num0 => bookmarks[0] = current_page,
                         .num1 => bookmarks[1] = current_page,
                         .num2 => bookmarks[2] = current_page,
@@ -84,24 +84,24 @@ pub fn main() !void {
                     }
                 } else if (event.key_pressed.control) {
                     switch (event.key_pressed.code) {
-                        .left => setPageToNextHizb(&quran_sprite) catch {},
-                        .right => setPageToPreviousHizb(&quran_sprite) catch {},
+                        .left => setPageToNextHizb(&quran_sprite),
+                        .right => setPageToPreviousHizb(&quran_sprite),
                         else => {},
                     }
                 } else {
                     switch (event.key_pressed.code) {
-                        .left => if (current_page < NUMBER_OF_PAGES) try setPage(&quran_sprite, current_page + 1),
-                        .right => if (current_page > 1) try setPage(&quran_sprite, current_page - 1),
-                        .num0 => setPage(&quran_sprite, bookmarks[0]) catch {},
-                        .num1 => setPage(&quran_sprite, bookmarks[1]) catch {},
-                        .num2 => setPage(&quran_sprite, bookmarks[2]) catch {},
-                        .num3 => setPage(&quran_sprite, bookmarks[3]) catch {},
-                        .num4 => setPage(&quran_sprite, bookmarks[4]) catch {},
-                        .num5 => setPage(&quran_sprite, bookmarks[5]) catch {},
-                        .num6 => setPage(&quran_sprite, bookmarks[6]) catch {},
-                        .num7 => setPage(&quran_sprite, bookmarks[7]) catch {},
-                        .num8 => setPage(&quran_sprite, bookmarks[8]) catch {},
-                        .num9 => setPage(&quran_sprite, bookmarks[9]) catch {},
+                        .left => if (current_page < NUMBER_OF_PAGES) setPage(&quran_sprite, current_page + 1),
+                        .right => if (current_page > 1) setPage(&quran_sprite, current_page - 1),
+                        .num0 => setPage(&quran_sprite, bookmarks[0]),
+                        .num1 => setPage(&quran_sprite, bookmarks[1]),
+                        .num2 => setPage(&quran_sprite, bookmarks[2]),
+                        .num3 => setPage(&quran_sprite, bookmarks[3]),
+                        .num4 => setPage(&quran_sprite, bookmarks[4]),
+                        .num5 => setPage(&quran_sprite, bookmarks[5]),
+                        .num6 => setPage(&quran_sprite, bookmarks[6]),
+                        .num7 => setPage(&quran_sprite, bookmarks[7]),
+                        .num8 => setPage(&quran_sprite, bookmarks[8]),
+                        .num9 => setPage(&quran_sprite, bookmarks[9]),
                         else => {},
                     }
                 }
@@ -122,10 +122,10 @@ pub fn main() !void {
 }
 
 /// sets the page diplayed starting from 1
-fn setPage(sprite: *sf.Sprite, target_page: usize) !void {
+fn setPage(sprite: *sf.Sprite, target_page: usize) void {
     if (current_page == target_page or target_page > NUMBER_OF_PAGES or 0 == target_page) return;
 
-    sprite.setTexture(try sf.Texture.createFromMemory(quran_pictures_arr[target_page - 1], .{ .top = 0, .left = 0, .width = 0, .height = 0 }));
+    sprite.setTexture(sf.Texture.createFromMemory(quran_pictures_arr[target_page - 1], .{ .top = 0, .left = 0, .width = 0, .height = 0 }) catch unreachable);
 
     // sprite.setTextureRect(sf.IntRect.init(393, 170, 1360, 2184));
     // sprite.setTextureRect(sf.IntRect.init(196, 85, 680, 1542));
@@ -141,25 +141,25 @@ fn getCurrentSurahIndex() usize {
     return 0;
 }
 
-fn setPageToNextSurah(sprite: *sf.Sprite) !void {
+fn setPageToNextSurah(sprite: *sf.Sprite) void {
     const current_surah_index = getCurrentSurahIndex();
     const starting_page = current_page;
     if (current_page == NUMBER_OF_PAGES) {
-        try setPage(sprite, 1);
+        setPage(sprite, 1);
     } else {
-        try setPage(sprite, surah_start_pages_list[current_surah_index + 1]);
+        setPage(sprite, surah_start_pages_list[current_surah_index + 1]);
         if (starting_page == current_page) {
-            try setPage(sprite, current_page + 1);
+            setPage(sprite, current_page + 1);
         }
     }
 }
 
-fn setPageToPreviousSurah(sprite: *sf.Sprite) !void {
+fn setPageToPreviousSurah(sprite: *sf.Sprite) void {
     const current_surah_index = getCurrentSurahIndex();
     if (current_surah_index == 0) {
-        try setPage(sprite, surah_start_pages_list[surah_start_pages_list.len - 1]);
+        setPage(sprite, surah_start_pages_list[surah_start_pages_list.len - 1]);
     } else {
-        try setPage(sprite, surah_start_pages_list[current_surah_index - 1]);
+        setPage(sprite, surah_start_pages_list[current_surah_index - 1]);
     }
 }
 
@@ -171,25 +171,25 @@ fn getCurrentHizbIndex() usize {
     return 0;
 }
 
-fn setPageToNextHizb(sprite: *sf.Sprite) !void {
+fn setPageToNextHizb(sprite: *sf.Sprite) void {
     const current_hizb_index = getCurrentHizbIndex();
     const starting_page = current_page;
     if (current_hizb_index == 59) {
-        try setPage(sprite, 1);
+        setPage(sprite, 1);
     } else {
-        try setPage(sprite, hizb_start_pages_list[current_hizb_index + 1]);
+        setPage(sprite, hizb_start_pages_list[current_hizb_index + 1]);
         if (starting_page == current_page) {
-            try setPage(sprite, current_page + 1);
+            setPage(sprite, current_page + 1);
         }
     }
 }
 
-fn setPageToPreviousHizb(sprite: *sf.Sprite) !void {
+fn setPageToPreviousHizb(sprite: *sf.Sprite) void {
     const current_hizb_index = getCurrentHizbIndex();
     if (current_hizb_index == 0) {
-        try setPage(sprite, hizb_start_pages_list[hizb_start_pages_list.len - 1]);
+        setPage(sprite, hizb_start_pages_list[hizb_start_pages_list.len - 1]);
     } else {
-        try setPage(sprite, hizb_start_pages_list[current_hizb_index - 1]);
+        setPage(sprite, hizb_start_pages_list[current_hizb_index - 1]);
     }
 }
 
