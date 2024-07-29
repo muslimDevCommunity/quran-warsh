@@ -173,14 +173,10 @@ fn getCurrentHizbIndex() usize {
 
 fn setPageToNextHizb(sprite: *sf.Sprite) void {
     const current_hizb_index = getCurrentHizbIndex();
-    const starting_page = current_page;
     if (current_hizb_index == 59) {
         setPage(sprite, 1);
     } else {
         setPage(sprite, hizb_start_pages_list[current_hizb_index + 1]);
-        if (starting_page == current_page) {
-            setPage(sprite, current_page + 1);
-        }
     }
 }
 
