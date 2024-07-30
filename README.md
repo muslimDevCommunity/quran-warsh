@@ -13,6 +13,10 @@ and `zig build run` to run the app
 # Usage
 - `<-` left arrow: next page
 - `->` right arrow: previous page
+- `Shift`+`<-`: goto next surah
+- `Shift`+`->`: goto previous surah
+- `Ctrl`+`<-`: goto next hizb (حزب)
+- `Ctrl`+`->`: goto previous hizb (حزب)
 - `0-9`: goto bookmark
 - `Shift`+`0-9`: set bookmark to current page
 
