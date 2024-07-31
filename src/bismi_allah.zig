@@ -143,7 +143,7 @@ pub fn main() !void {
 
 /// sets the page diplayed starting from 1
 fn setPage(sprite: *sf.Sprite, target_page: usize) void {
-    if (current_page == target_page or target_page > NUMBER_OF_PAGES or 0 == target_page) return;
+    if (target_page > NUMBER_OF_PAGES or 0 == target_page) return;
 
     sprite.setTexture(sf.Texture.createFromMemory(quran_pictures_arr[target_page - 1], .{ .top = 0, .left = 0, .width = 0, .height = 0 }) catch unreachable);
 
