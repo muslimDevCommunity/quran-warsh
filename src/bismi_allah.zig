@@ -145,6 +145,9 @@ pub fn main() !void {
 fn setPage(sprite: *sf.Sprite, target_page: usize) void {
     if (target_page > NUMBER_OF_PAGES or 0 == target_page) return;
 
+    if (sprite.getTexture()) |texture| {
+        sf.c.sfTexture_destroy(@constCast(texture._const_ptr));
+    }
     sprite.setTexture(sf.Texture.createFromMemory(quran_pictures_arr[target_page - 1], .{ .top = 0, .left = 0, .width = 0, .height = 0 }) catch unreachable);
 
     // sprite.setTextureRect(sf.IntRect.init(393, 170, 1360, 2184));
