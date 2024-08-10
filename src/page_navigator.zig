@@ -57,7 +57,7 @@ pub fn goToPage(sprite: *sf.Sprite, target_page: usize) void {
     current_page = target_page;
 }
 
-pub fn getCurrentSurahIndex() usize {
+fn getCurrentSurahIndex() usize {
     var i: usize = 0;
     while (i < surah_start_pages_list.len) : (i += 1) {
         if (current_page <= surah_start_pages_list[i]) return i;
@@ -87,7 +87,7 @@ pub fn goToPreviousSurah(sprite: *sf.Sprite) void {
     }
 }
 
-pub fn getCurrentHizbIndex() usize {
+fn getCurrentHizbIndex() usize {
     var i: usize = 0;
     while (i < hizb_start_pages_list.len) : (i += 1) {
         if (current_page <= hizb_start_pages_list[i]) return i;
