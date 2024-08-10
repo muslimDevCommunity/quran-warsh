@@ -49,7 +49,7 @@ pub fn main() !void {
     defer quran_sprite.destroy();
     // quran_sprite.setScale(.{ .x = 0.5, .y = 0.5 });
 
-    page_navigator.setPage(&quran_sprite, page_navigator.current_page);
+    page_navigator.goToPage(&quran_sprite, page_navigator.current_page);
 
     while (window.waitEvent()) |event| {
         switch (event) {
@@ -59,8 +59,8 @@ pub fn main() !void {
             .key_pressed => {
                 if (event.key_pressed.shift) {
                     switch (event.key_pressed.code) {
-                        .left => page_navigator.setPageToNextSurah(&quran_sprite),
-                        .right => page_navigator.setPageToPreviousSurah(&quran_sprite),
+                        .left => page_navigator.goToNextSurah(&quran_sprite),
+                        .right => page_navigator.goToPreviousSurah(&quran_sprite),
                         .num0 => page_navigator.bookmarks[0] = page_navigator.current_page,
                         .num1 => page_navigator.bookmarks[1] = page_navigator.current_page,
                         .num2 => page_navigator.bookmarks[2] = page_navigator.current_page,
@@ -75,24 +75,24 @@ pub fn main() !void {
                     }
                 } else if (event.key_pressed.control) {
                     switch (event.key_pressed.code) {
-                        .left => page_navigator.setPageToNextHizb(&quran_sprite),
-                        .right => page_navigator.setPageToPreviousHizb(&quran_sprite),
+                        .left => page_navigator.goToNextHizb(&quran_sprite),
+                        .right => page_navigator.goToPreviousHizb(&quran_sprite),
                         else => {},
                     }
                 } else {
                     switch (event.key_pressed.code) {
-                        .left => if (page_navigator.current_page < page_navigator.NUMBER_OF_PAGES) page_navigator.setPage(&quran_sprite, page_navigator.current_page + 1),
-                        .right => if (page_navigator.current_page > 1) page_navigator.setPage(&quran_sprite, page_navigator.current_page - 1),
-                        .num0 => page_navigator.setPage(&quran_sprite, page_navigator.bookmarks[0]),
-                        .num1 => page_navigator.setPage(&quran_sprite, page_navigator.bookmarks[1]),
-                        .num2 => page_navigator.setPage(&quran_sprite, page_navigator.bookmarks[2]),
-                        .num3 => page_navigator.setPage(&quran_sprite, page_navigator.bookmarks[3]),
-                        .num4 => page_navigator.setPage(&quran_sprite, page_navigator.bookmarks[4]),
-                        .num5 => page_navigator.setPage(&quran_sprite, page_navigator.bookmarks[5]),
-                        .num6 => page_navigator.setPage(&quran_sprite, page_navigator.bookmarks[6]),
-                        .num7 => page_navigator.setPage(&quran_sprite, page_navigator.bookmarks[7]),
-                        .num8 => page_navigator.setPage(&quran_sprite, page_navigator.bookmarks[8]),
-                        .num9 => page_navigator.setPage(&quran_sprite, page_navigator.bookmarks[9]),
+                        .left => if (page_navigator.current_page < page_navigator.NUMBER_OF_PAGES) page_navigator.goToPage(&quran_sprite, page_navigator.current_page + 1),
+                        .right => if (page_navigator.current_page > 1) page_navigator.goToPage(&quran_sprite, page_navigator.current_page - 1),
+                        .num0 => page_navigator.goToPage(&quran_sprite, page_navigator.bookmarks[0]),
+                        .num1 => page_navigator.goToPage(&quran_sprite, page_navigator.bookmarks[1]),
+                        .num2 => page_navigator.goToPage(&quran_sprite, page_navigator.bookmarks[2]),
+                        .num3 => page_navigator.goToPage(&quran_sprite, page_navigator.bookmarks[3]),
+                        .num4 => page_navigator.goToPage(&quran_sprite, page_navigator.bookmarks[4]),
+                        .num5 => page_navigator.goToPage(&quran_sprite, page_navigator.bookmarks[5]),
+                        .num6 => page_navigator.goToPage(&quran_sprite, page_navigator.bookmarks[6]),
+                        .num7 => page_navigator.goToPage(&quran_sprite, page_navigator.bookmarks[7]),
+                        .num8 => page_navigator.goToPage(&quran_sprite, page_navigator.bookmarks[8]),
+                        .num9 => page_navigator.goToPage(&quran_sprite, page_navigator.bookmarks[9]),
                         else => {},
                     }
                 }

@@ -43,7 +43,7 @@ fn embed_quran_pictures() [NUMBER_OF_PAGES][]const u8 {
 const quran_pictures_arr = embed_quran_pictures();
 
 /// sets the page diplayed starting from 1
-pub fn setPage(sprite: *sf.Sprite, target_page: usize) void {
+pub fn goToPage(sprite: *sf.Sprite, target_page: usize) void {
     if (target_page > NUMBER_OF_PAGES or 0 == target_page) return;
 
     if (sprite.getTexture()) |texture| {
@@ -65,25 +65,25 @@ pub fn getCurrentSurahIndex() usize {
     return 0;
 }
 
-pub fn setPageToNextSurah(sprite: *sf.Sprite) void {
+pub fn goToNextSurah(sprite: *sf.Sprite) void {
     const current_surah_index = getCurrentSurahIndex();
     const starting_page = current_page;
     if (current_page == NUMBER_OF_PAGES) {
-        setPage(sprite, 1);
+        goToPage(sprite, 1);
     } else {
-        setPage(sprite, surah_start_pages_list[current_surah_index + 1]);
+        goToPage(sprite, surah_start_pages_list[current_surah_index + 1]);
         if (starting_page == current_page) {
-            setPage(sprite, current_page + 1);
+            goToPage(sprite, current_page + 1);
         }
     }
 }
 
-pub fn setPageToPreviousSurah(sprite: *sf.Sprite) void {
+pub fn goToPreviousSurah(sprite: *sf.Sprite) void {
     const current_surah_index = getCurrentSurahIndex();
     if (current_surah_index == 0) {
-        setPage(sprite, surah_start_pages_list[surah_start_pages_list.len - 1]);
+        goToPage(sprite, surah_start_pages_list[surah_start_pages_list.len - 1]);
     } else {
-        setPage(sprite, surah_start_pages_list[current_surah_index - 1]);
+        goToPage(sprite, surah_start_pages_list[current_surah_index - 1]);
     }
 }
 
@@ -95,21 +95,21 @@ pub fn getCurrentHizbIndex() usize {
     return 0;
 }
 
-pub fn setPageToNextHizb(sprite: *sf.Sprite) void {
+pub fn goToNextHizb(sprite: *sf.Sprite) void {
     const current_hizb_index = getCurrentHizbIndex();
     if (current_hizb_index == 59) {
-        setPage(sprite, 1);
+        goToPage(sprite, 1);
     } else {
-        setPage(sprite, hizb_start_pages_list[current_hizb_index + 1]);
+        goToPage(sprite, hizb_start_pages_list[current_hizb_index + 1]);
     }
 }
 
-pub fn setPageToPreviousHizb(sprite: *sf.Sprite) void {
+pub fn goToPreviousHizb(sprite: *sf.Sprite) void {
     const current_hizb_index = getCurrentHizbIndex();
     if (current_hizb_index == 0) {
-        setPage(sprite, hizb_start_pages_list[hizb_start_pages_list.len - 1]);
+        goToPage(sprite, hizb_start_pages_list[hizb_start_pages_list.len - 1]);
     } else {
-        setPage(sprite, hizb_start_pages_list[current_hizb_index - 1]);
+        goToPage(sprite, hizb_start_pages_list[current_hizb_index - 1]);
     }
 }
 
