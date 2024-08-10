@@ -15,10 +15,10 @@ const Settings = struct {
     current_page: usize,
 };
 
-const quran_navigator = @import("quran_navigator.zig");
+const page_navigator = @import("page_navigator.zig");
 
-const IMAGE_WIDTH = quran_navigator.IMAGE_WIDTH;
-const IMAGE_HEIGHT = quran_navigator.IMAGE_HEIGHT;
+const IMAGE_WIDTH = 1792;
+const IMAGE_HEIGHT = 2560;
 
 // var flag_zoomed_in: bool = false;
 
@@ -49,7 +49,7 @@ pub fn main() !void {
     defer quran_sprite.destroy();
     // quran_sprite.setScale(.{ .x = 0.5, .y = 0.5 });
 
-    quran_navigator.setPage(&quran_sprite, quran_navigator.current_page);
+    page_navigator.setPage(&quran_sprite, page_navigator.current_page);
 
     while (window.waitEvent()) |event| {
         switch (event) {
@@ -59,40 +59,40 @@ pub fn main() !void {
             .key_pressed => {
                 if (event.key_pressed.shift) {
                     switch (event.key_pressed.code) {
-                        .left => quran_navigator.setPageToNextSurah(&quran_sprite),
-                        .right => quran_navigator.setPageToPreviousSurah(&quran_sprite),
-                        .num0 => quran_navigator.bookmarks[0] = quran_navigator.current_page,
-                        .num1 => quran_navigator.bookmarks[1] = quran_navigator.current_page,
-                        .num2 => quran_navigator.bookmarks[2] = quran_navigator.current_page,
-                        .num3 => quran_navigator.bookmarks[3] = quran_navigator.current_page,
-                        .num4 => quran_navigator.bookmarks[4] = quran_navigator.current_page,
-                        .num5 => quran_navigator.bookmarks[5] = quran_navigator.current_page,
-                        .num6 => quran_navigator.bookmarks[6] = quran_navigator.current_page,
-                        .num7 => quran_navigator.bookmarks[7] = quran_navigator.current_page,
-                        .num8 => quran_navigator.bookmarks[8] = quran_navigator.current_page,
-                        .num9 => quran_navigator.bookmarks[9] = quran_navigator.current_page,
+                        .left => page_navigator.setPageToNextSurah(&quran_sprite),
+                        .right => page_navigator.setPageToPreviousSurah(&quran_sprite),
+                        .num0 => page_navigator.bookmarks[0] = page_navigator.current_page,
+                        .num1 => page_navigator.bookmarks[1] = page_navigator.current_page,
+                        .num2 => page_navigator.bookmarks[2] = page_navigator.current_page,
+                        .num3 => page_navigator.bookmarks[3] = page_navigator.current_page,
+                        .num4 => page_navigator.bookmarks[4] = page_navigator.current_page,
+                        .num5 => page_navigator.bookmarks[5] = page_navigator.current_page,
+                        .num6 => page_navigator.bookmarks[6] = page_navigator.current_page,
+                        .num7 => page_navigator.bookmarks[7] = page_navigator.current_page,
+                        .num8 => page_navigator.bookmarks[8] = page_navigator.current_page,
+                        .num9 => page_navigator.bookmarks[9] = page_navigator.current_page,
                         else => {},
                     }
                 } else if (event.key_pressed.control) {
                     switch (event.key_pressed.code) {
-                        .left => quran_navigator.setPageToNextHizb(&quran_sprite),
-                        .right => quran_navigator.setPageToPreviousHizb(&quran_sprite),
+                        .left => page_navigator.setPageToNextHizb(&quran_sprite),
+                        .right => page_navigator.setPageToPreviousHizb(&quran_sprite),
                         else => {},
                     }
                 } else {
                     switch (event.key_pressed.code) {
-                        .left => if (quran_navigator.current_page < quran_navigator.NUMBER_OF_PAGES) quran_navigator.setPage(&quran_sprite, quran_navigator.current_page + 1),
-                        .right => if (quran_navigator.current_page > 1) quran_navigator.setPage(&quran_sprite, quran_navigator.current_page - 1),
-                        .num0 => quran_navigator.setPage(&quran_sprite, quran_navigator.bookmarks[0]),
-                        .num1 => quran_navigator.setPage(&quran_sprite, quran_navigator.bookmarks[1]),
-                        .num2 => quran_navigator.setPage(&quran_sprite, quran_navigator.bookmarks[2]),
-                        .num3 => quran_navigator.setPage(&quran_sprite, quran_navigator.bookmarks[3]),
-                        .num4 => quran_navigator.setPage(&quran_sprite, quran_navigator.bookmarks[4]),
-                        .num5 => quran_navigator.setPage(&quran_sprite, quran_navigator.bookmarks[5]),
-                        .num6 => quran_navigator.setPage(&quran_sprite, quran_navigator.bookmarks[6]),
-                        .num7 => quran_navigator.setPage(&quran_sprite, quran_navigator.bookmarks[7]),
-                        .num8 => quran_navigator.setPage(&quran_sprite, quran_navigator.bookmarks[8]),
-                        .num9 => quran_navigator.setPage(&quran_sprite, quran_navigator.bookmarks[9]),
+                        .left => if (page_navigator.current_page < page_navigator.NUMBER_OF_PAGES) page_navigator.setPage(&quran_sprite, page_navigator.current_page + 1),
+                        .right => if (page_navigator.current_page > 1) page_navigator.setPage(&quran_sprite, page_navigator.current_page - 1),
+                        .num0 => page_navigator.setPage(&quran_sprite, page_navigator.bookmarks[0]),
+                        .num1 => page_navigator.setPage(&quran_sprite, page_navigator.bookmarks[1]),
+                        .num2 => page_navigator.setPage(&quran_sprite, page_navigator.bookmarks[2]),
+                        .num3 => page_navigator.setPage(&quran_sprite, page_navigator.bookmarks[3]),
+                        .num4 => page_navigator.setPage(&quran_sprite, page_navigator.bookmarks[4]),
+                        .num5 => page_navigator.setPage(&quran_sprite, page_navigator.bookmarks[5]),
+                        .num6 => page_navigator.setPage(&quran_sprite, page_navigator.bookmarks[6]),
+                        .num7 => page_navigator.setPage(&quran_sprite, page_navigator.bookmarks[7]),
+                        .num8 => page_navigator.setPage(&quran_sprite, page_navigator.bookmarks[8]),
+                        .num9 => page_navigator.setPage(&quran_sprite, page_navigator.bookmarks[9]),
                         else => {},
                     }
                 }
@@ -126,8 +126,8 @@ fn saveData() !void {
     var file = try app_data_dir.createFile("cache", .{ .read = true });
     defer file.close();
 
-    var settings = Settings{ .bookmarks = undefined, .current_page = quran_navigator.current_page };
-    std.mem.copyForwards(usize, &settings.bookmarks, &quran_navigator.bookmarks);
+    var settings = Settings{ .bookmarks = undefined, .current_page = page_navigator.current_page };
+    std.mem.copyForwards(usize, &settings.bookmarks, &page_navigator.bookmarks);
     try std.json.stringify(settings, .{}, file.writer());
 }
 
@@ -148,6 +148,6 @@ fn loadData() !void {
     const parsed = try std.json.parseFromSlice(Settings, allocator, buffer[0..read_bytes], .{ .ignore_unknown_fields = true, .duplicate_field_behavior = .use_last });
     defer parsed.deinit();
 
-    quran_navigator.current_page = parsed.value.current_page;
-    std.mem.copyForwards(usize, &quran_navigator.bookmarks, &parsed.value.bookmarks);
+    page_navigator.current_page = parsed.value.current_page;
+    std.mem.copyForwards(usize, &page_navigator.bookmarks, &parsed.value.bookmarks);
 }

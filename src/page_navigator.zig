@@ -13,8 +13,6 @@ const sf = struct {
 };
 
 pub const NUMBER_OF_PAGES = 604;
-pub const IMAGE_WIDTH = 1792;
-pub const IMAGE_HEIGHT = 2560;
 
 pub var current_page: usize = 1;
 pub var bookmarks: [10]usize = [1]usize{0} ** 10;
