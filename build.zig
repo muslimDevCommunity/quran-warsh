@@ -17,6 +17,12 @@ pub fn build(b: *std.Build) void {
 
     b.installArtifact(exe);
 
+    const embed_quran_pictures = b.option(bool, "embed-pictures", "option to embed quran pictures default is false") orelse false;
+
+    const compile_config = b.addOptions();
+    compile_config.addOption(bool, "embed_pictures", embed_quran_pictures);
+    exe.root_module.addOptions("compile_config", compile_config);
+
     const sfml_dep = b.dependency("sfml", .{});
     exe.root_module.addImport("sfml", sfml_dep.module("sfml"));
     if (target.result.os.tag == .windows or target.result.isMinGW()) {
