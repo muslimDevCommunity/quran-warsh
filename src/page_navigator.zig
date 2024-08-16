@@ -44,13 +44,11 @@ fn embed_quran_pictures() ?[NUMBER_OF_PAGES][]const u8 {
 }
 
 const quran_pictures_arr = if (compile_config.embed_pictures) embed_quran_pictures().? else undefined;
-// list of possible image lcations
-// "res/{d}-scaled.jpg",
-// "src/res/{d}-scaled.jpg",
-// "/usr/share/quran-warsh/{d}-scaled.jpg",
-// "res/{d}.jpg",
-// "src/res/{d}.jpg",
-// "/usr/share/quran-warsh/{d}.jpg",
+
+var possible_quran_dir_paths_buffers: [2][]u8 = .{
+    @constCast("res"),
+    @constCast("/usr/share/quran_pictures"),
+};
 
 /// sets the page diplayed starting from 1
 pub fn goToPage(sprite: *sf.Sprite, target_page: usize) void {
@@ -60,19 +58,25 @@ pub fn goToPage(sprite: *sf.Sprite, target_page: usize) void {
         sf.c.sfTexture_destroy(@constCast(texture._const_ptr));
     }
 
+    // possible_quran_dir_paths_buffers[0] = @constCast("/usr/share/quran_pictures");
+    // std.fs.selfExeDirPath(&possible_quran_dir_paths_buffers[1]) catch {};
+
     if (compile_config.embed_pictures) {
         sprite.setTexture(sf.Texture.createFromMemory(quran_pictures_arr[target_page - 1], .{ .top = 0, .left = 0, .width = 0, .height = 0 }) catch unreachable);
     } else {
-        var file_name_buffer: [64:0]u8 = [1:0]u8{0} ** 64;
-        const file_name_slice = std.fmt.bufPrintZ(&file_name_buffer, "src/res/{d}-scaled.jpg", .{target_page}) catch |e| {
-            std.log.err("alhamdo li Allah error while writing to 'file_name_buffer': {any} target_page {d}\n", .{ e, target_page });
-            return;
-        };
+        for (possible_quran_dir_paths_buffers) |possible_quran_dir_path| {
+            var file_name_buffer: [64:0]u8 = [1:0]u8{0} ** 64;
+            const file_name_slice = std.fmt.bufPrintZ(&file_name_buffer, "{s}/{d}-scaled.jpg", .{ possible_quran_dir_path, target_page }) catch |e| {
+                std.log.err("alhamdo li Allah error while writing to 'file_name_buffer': {any} target_page {d}\n", .{ e, target_page });
+                continue;
+            };
 
-        sprite.setTexture(sf.Texture.createFromFile(file_name_slice) catch |e| {
-            std.log.err("alhamdo li Allah error while callings 'sf.Texture.createFromFile()' err: '{any}' \n", .{e});
-            return;
-        });
+            sprite.setTexture(sf.Texture.createFromFile(file_name_slice) catch |e| {
+                std.log.err("alhamdo li Allah error while callings 'sf.Texture.createFromFile()' err: '{any}' \n", .{e});
+                continue;
+            });
+            break; // bismi Allah: if we get here then the images was found
+        }
     }
 
     // sprite.setTextureRect(sf.IntRect.init(393, 170, 1360, 2184));
