@@ -38,6 +38,20 @@ pub fn main() !void {
         std.debug.print("alhamdo li Allah err: {any}\n", .{e});
     };
 
+    get_self_exe_dir_path: {
+        const dir_path = std.fs.selfExeDirPathAlloc(allocator) catch |e| {
+            std.log.err("alhamdo li Allah error while getting 'selfExeDirPathAlloc': {any}\n", .{e});
+            break :get_self_exe_dir_path;
+        };
+        defer allocator.free(dir_path);
+        const res_path = std.mem.concat(allocator, u8, &[_][]u8{ dir_path, @constCast("/res") }) catch |e| {
+            std.log.err("alhamdo li Allah error while concating 'self_dir' and 'res': {any}\n", .{e});
+            break :get_self_exe_dir_path;
+        };
+        page_navigator.possible_quran_dir_paths_buffers[2] = res_path;
+    }
+    defer allocator.free(page_navigator.possible_quran_dir_paths_buffers[2]);
+
     var window = try sf.RenderWindow.create(.{ .x = IMAGE_WIDTH, .y = IMAGE_HEIGHT }, 64, "quran warsh - tajweed quran", sf.Style.defaultStyle, null);
     defer window.destroy();
 
