@@ -26,16 +26,17 @@ var file_name_buffer: [std.fs.max_path_bytes]u8 = undefined;
 fn embed_quran_pictures() ?[NUMBER_OF_PAGES][]const u8 {
     if (compile_config.embed_pictures) {
         var quran_pictures: [NUMBER_OF_PAGES][]const u8 = undefined;
+        var comptime_file_name_buffer: [std.fs.max_path_bytes]u8 = undefined;
 
         var i: usize = 0;
         while (i < NUMBER_OF_PAGES) : (i += 1) {
-            const file_name_slice = std.fmt.bufPrint(&file_name_buffer, "res/{d}-scaled.jpg", .{i + 1}) catch |e| {
-                // std.log.err("alhamdo li Allah error while writing to 'file_name_buffer': {any}\n", .{e});
-                @compileLog("alhamdo li Allah error ", e, " while writing to 'file_name_buffer' ", i);
+            const comptime_file_name_slice = std.fmt.bufPrint(&comptime_file_name_buffer, "res/{d}-scaled.jpg", .{i + 1}) catch |e| {
+                // std.log.err("alhamdo li Allah error while writing to 'comptime_file_name_buffer': {any}\n", .{e});
+                @compileLog("alhamdo li Allah error ", e, " while writing to 'comptime_file_name_buffer' ", i);
                 @compileError("error while writing file name to buffer\n");
             };
 
-            const file = @embedFile(file_name_slice);
+            const file = @embedFile(comptime_file_name_slice);
             quran_pictures[i] = file;
         }
 
