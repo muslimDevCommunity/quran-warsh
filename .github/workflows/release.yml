@@ -1,7 +1,6 @@
 # بسم الله الرحمن الرحيم
 # la ilaha illa Allah Mohammed Rassoul Allah
 
-# alhamdo li Allah this was made by 'ChatGPT'
 name: Compile, Compress, and Attach to Release
 
 on:
@@ -32,10 +31,12 @@ jobs:
           version: 0.13.0
 
       - name: Compile Zig project
-        run: zig build -Dtarget=x86_64-windows
+        run: zig build -Dtarget=x86_64-windows --release=safe
 
       - name: Compress binary and DLL
         run: zip -j quran-warsh_${{ steps.get_release.outputs.tag_name }}_win64.zip zig-out/bin/quran-warsh.exe zig-out/bin/quran-warsh.pdb libs/CSFML/bin/csfml-graphics-2.dll
+        run: ln --symbolic src/res/ res
+        run: zip -ur quran-warsh_${{ steps.get_release.outputs.tag_name }}_win64.zip res
 
       - name: Upload compressed binary to release
         uses: actions/upload-release-asset@v1

@@ -17,7 +17,7 @@ pub fn build(b: *std.Build) void {
 
     b.installArtifact(exe);
 
-    const embed_quran_pictures = b.option(bool, "embed_pictures", "option to embed quran pictures default is true") orelse true;
+    const embed_quran_pictures = b.option(bool, "embed-pictures", "option to embed quran pictures default is false") orelse false;
 
     const compile_config = b.addOptions();
     compile_config.addOption(bool, "embed_pictures", embed_quran_pictures);
