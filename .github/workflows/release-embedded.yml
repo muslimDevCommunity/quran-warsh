@@ -34,7 +34,7 @@ jobs:
         run: zig build -Dtarget=x86_64-windows --release=safe -Dembed-pictures=true
 
       - name: Compress binary and DLL
-        run: zip -j quran-warsh_${{ steps.get_release.outputs.tag_name }}_win64.zip zig-out/bin/quran-warsh.exe zig-out/bin/quran-warsh.pdb libs/CSFML/bin/csfml-graphics-2.dll
+        run: zip -j quran-warsh_${{ steps.get_release.outputs.tag_name }}-embedded-pictures_win64.zip zig-out/bin/quran-warsh.exe zig-out/bin/quran-warsh.pdb libs/CSFML/bin/csfml-graphics-2.dll
 
       - name: Upload compressed binary to release
         uses: actions/upload-release-asset@v1
@@ -45,4 +45,3 @@ jobs:
           asset_path: quran-warsh_${{ steps.get_release.outputs.tag_name }}-embedded-pictures_win64.zip
           asset_name: quran-warsh_${{ steps.get_release.outputs.tag_name }}-embedded-pictures_win64.zip
           asset_content_type: application/zip
-
