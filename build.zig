@@ -3,7 +3,7 @@
 const std = @import("std");
 const sfml = @import("sfml");
 
-pub fn build(b: *std.Build) void {
+pub fn build(b: *std.Build) !void {
     const target = b.standardTargetOptions(.{});
 
     const optimize = b.standardOptimizeOption(.{});
@@ -38,6 +38,17 @@ pub fn build(b: *std.Build) void {
         exe.subsystem = .Windows;
     } else {
         sfml.link(exe);
+    }
+
+    if (!embed_quran_pictures) {
+        var i: usize = 0;
+        var comptime_file_name_source_buffer: [std.fs.max_path_bytes]u8 = undefined;
+        var comptime_file_name_destination_buffer: [std.fs.max_path_bytes]u8 = undefined;
+        while (i < 604) : (i += 1) {
+            const comptime_file_name_source_slice = try std.fmt.bufPrint(&comptime_file_name_source_buffer, "src/res/{d}-scaled.jpg", .{i + 1});
+            const comptime_file_name_destination_slice = try std.fmt.bufPrint(&comptime_file_name_destination_buffer, "res/{d}-scaled.jpg", .{i + 1});
+            b.installBinFile(comptime_file_name_source_slice, comptime_file_name_destination_slice);
+        }
     }
 
     const run_cmd = b.addRunArtifact(exe);
