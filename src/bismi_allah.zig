@@ -28,6 +28,9 @@ var app_data_dir_path: []u8 = undefined;
 var fba: std.heap.FixedBufferAllocator = undefined;
 var allocator: std.mem.Allocator = undefined;
 
+const font_data = @embedFile("res/18_Khebrat_Musamim_Regular.ttf");
+var font: sf.Font = undefined;
+
 pub fn main() !void {
     // notes:
     // image size: 1792x2560
@@ -51,6 +54,9 @@ pub fn main() !void {
         page_navigator.possible_quran_dir_paths_buffers[2] = res_path;
     }
     defer allocator.free(page_navigator.possible_quran_dir_paths_buffers[2]);
+
+    font = try sf.Font.createFromMemory(font_data);
+    defer font.destroy();
 
     var window = try sf.RenderWindow.create(.{ .x = IMAGE_WIDTH, .y = IMAGE_HEIGHT }, 64, "quran warsh - tajweed quran", sf.Style.defaultStyle, null);
     defer window.destroy();
@@ -122,7 +128,6 @@ pub fn main() !void {
         defer window.display();
 
         //drawnig by the will of Allah
-        window.draw(quran_sprite, null);
     }
 
     try saveData();
@@ -164,4 +169,26 @@ fn loadData() !void {
 
     page_navigator.current_page = parsed.value.current_page;
     std.mem.copyForwards(usize, &page_navigator.bookmarks, &parsed.value.bookmarks);
+}
+
+fn imguiButton(window: *sf.RenderWindow, rect: sf.Rect(f32), message: [:0]const u8) !bool {
+    var button = try sf.RectangleShape.create(rect.getSize());
+    button.setPosition(rect.getPosition());
+    defer button.destroy();
+
+    // button.setFillColor(.{ .r = 0, .g = 0, .b = 0, .a = 0 });
+    button.setFillColor(sf.Color.White);
+
+    var text_message = try sf.Text.createWithText(message, font, @intFromFloat(rect.height * 0.75));
+    defer text_message.destroy();
+
+    text_message.setFillColor(sf.Color.Black);
+    text_message.setPosition(rect.getPosition());
+
+    window.draw(button, null);
+    window.draw(text_message, null);
+
+    if (!sf.mouse.isButtonPressed(.left)) return false;
+    // const mouse_pos = window.mapPixelToCoords(sf.mouse.getPosition(window.*), window.getView());
+    return rect.contains(window.mapPixelToCoords(sf.mouse.getPosition(window.*), window.getView()));
 }
