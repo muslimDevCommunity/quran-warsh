@@ -133,7 +133,7 @@ fn getCurrentHizbIndex() usize {
     return 0;
 }
 
-pub fn goToNextHizbByIndex(sprite: *sf.Sprite, index: usize) void {
+pub fn goToHizbByIndex(sprite: *sf.Sprite, index: usize) void {
     goToPage(sprite, hizb_start_pages_list[index]);
 }
 
