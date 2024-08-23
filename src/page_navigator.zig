@@ -99,6 +99,10 @@ fn getCurrentSurahIndex() usize {
     return 0;
 }
 
+pub fn goToSurahByIndex(sprite: *sf.Sprite, index: usize) void {
+    goToPage(sprite, surah_start_pages_list[index]);
+}
+
 pub fn goToNextSurah(sprite: *sf.Sprite) void {
     const current_surah_index = getCurrentSurahIndex();
     const starting_page = current_page;
@@ -127,6 +131,10 @@ fn getCurrentHizbIndex() usize {
         if (current_page <= hizb_start_pages_list[i]) return i;
     }
     return 0;
+}
+
+pub fn goToNextHizbByIndex(sprite: *sf.Sprite, index: usize) void {
+    goToPage(sprite, hizb_start_pages_list[index]);
 }
 
 pub fn goToNextHizb(sprite: *sf.Sprite) void {
