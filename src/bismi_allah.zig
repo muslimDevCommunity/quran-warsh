@@ -128,6 +128,9 @@ pub fn main() !void {
         defer window.display();
 
         //drawnig by the will of Allah
+        window.draw(quran_sprite, null);
+
+        if (try imguiButton(&window, .{ .left = IMAGE_WIDTH / 4, .top = 100, .width = IMAGE_WIDTH / 2, .height = 100 }, page_navigator.surah_names[page_navigator.getCurrentSurahIndex()])) page_navigator.goToSurahByIndex(&quran_sprite, 0);
     }
 
     try saveData();
