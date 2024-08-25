@@ -16,9 +16,10 @@ const Settings = struct {
 };
 
 const page_navigator = @import("page_navigator.zig");
+const ui = @import("ui.zig");
 
-const IMAGE_WIDTH = 1792;
-const IMAGE_HEIGHT = 2560;
+pub const IMAGE_WIDTH = 1792;
+pub const IMAGE_HEIGHT = 2560;
 
 // var flag_zoomed_in: bool = false;
 
@@ -27,9 +28,6 @@ var app_data_dir_path: []u8 = undefined;
 
 var fba: std.heap.FixedBufferAllocator = undefined;
 var allocator: std.mem.Allocator = undefined;
-
-const font_data = @embedFile("res/18_Khebrat_Musamim_Regular.ttf");
-var font: sf.Font = undefined;
 
 pub fn main() !void {
     // notes:
@@ -55,8 +53,8 @@ pub fn main() !void {
     }
     defer allocator.free(page_navigator.possible_quran_dir_paths_buffers[2]);
 
-    font = try sf.Font.createFromMemory(font_data);
-    defer font.destroy();
+    ui.font = try sf.Font.createFromMemory(ui.font_data);
+    defer ui.font.destroy();
 
     var window = try sf.RenderWindow.create(.{ .x = IMAGE_WIDTH, .y = IMAGE_HEIGHT }, 64, "quran warsh - tajweed quran", sf.Style.defaultStyle, null);
     defer window.destroy();
@@ -75,6 +73,7 @@ pub fn main() !void {
         switch (event) {
             .closed => {
                 window.close();
+                break;
             },
             .key_pressed => {
                 if (event.key_pressed.shift) {
@@ -130,7 +129,9 @@ pub fn main() !void {
         //drawnig by the will of Allah
         window.draw(quran_sprite, null);
 
-        if (try imguiButton(&window, .{ .left = IMAGE_WIDTH / 4, .top = 100, .width = IMAGE_WIDTH / 2, .height = 100 }, page_navigator.surah_names[page_navigator.getCurrentSurahIndex()])) page_navigator.goToSurahByIndex(&quran_sprite, 0);
+        ui.drawUi(&window, &quran_sprite) catch |e| {
+            std.log.err("alhamdo li Allah error: {any}\n", .{e});
+        };
     }
 
     try saveData();
@@ -172,26 +173,4 @@ fn loadData() !void {
 
     page_navigator.current_page = parsed.value.current_page;
     std.mem.copyForwards(usize, &page_navigator.bookmarks, &parsed.value.bookmarks);
-}
-
-fn imguiButton(window: *sf.RenderWindow, rect: sf.Rect(f32), message: [:0]const u8) !bool {
-    var button = try sf.RectangleShape.create(rect.getSize());
-    button.setPosition(rect.getPosition());
-    defer button.destroy();
-
-    // button.setFillColor(.{ .r = 0, .g = 0, .b = 0, .a = 0 });
-    button.setFillColor(sf.Color.White);
-
-    var text_message = try sf.Text.createWithText(message, font, @intFromFloat(rect.height * 0.75));
-    defer text_message.destroy();
-
-    text_message.setFillColor(sf.Color.Black);
-    text_message.setPosition(rect.getPosition());
-
-    window.draw(button, null);
-    window.draw(text_message, null);
-
-    if (!sf.mouse.isButtonPressed(.left)) return false;
-    // const mouse_pos = window.mapPixelToCoords(sf.mouse.getPosition(window.*), window.getView());
-    return rect.contains(window.mapPixelToCoords(sf.mouse.getPosition(window.*), window.getView()));
 }
