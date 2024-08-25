@@ -24,7 +24,7 @@ pub const IMAGE_HEIGHT = 2560;
 // var flag_zoomed_in: bool = false;
 
 var fixed_buffer: [1024]u8 = undefined;
-var app_data_dir_path: []u8 = undefined;
+pub var app_data_dir_path: []u8 = undefined;
 
 var fba: std.heap.FixedBufferAllocator = undefined;
 var allocator: std.mem.Allocator = undefined;

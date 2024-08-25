@@ -12,6 +12,7 @@ const sf = struct {
 };
 
 const page_navigator = @import("page_navigator.zig");
+const downloadImagesWrapper = @import("download_images.zig").downloadImagesWrapper;
 
 pub const font_data = @embedFile("res/18_Khebrat_Musamim_Regular.ttf");
 pub var font: sf.Font = undefined;
@@ -65,6 +66,10 @@ pub fn drawUi(window: *sf.RenderWindow, sprite: *sf.Sprite) !void {
             if (try imguiButton(window, .{ .top = 1000, .left = IMAGE_WIDTH / 4, .width = IMAGE_WIDTH / 2, .height = 100 }, "Hizb")) state = .Hizb;
             if (try imguiButton(window, .{ .top = 1100, .left = IMAGE_WIDTH / 4, .width = IMAGE_WIDTH / 2, .height = 100 }, "Go to bookmark")) state = .BookmarkGet;
             if (try imguiButton(window, .{ .top = 1200, .left = IMAGE_WIDTH / 4, .width = IMAGE_WIDTH / 2, .height = 100 }, "Set Bookmark")) state = .BookmarkSet;
+            if (try imguiButton(window, .{ .top = 1300, .left = IMAGE_WIDTH / 4, .width = IMAGE_WIDTH / 2, .height = 100 }, "download high resolution images")) {
+                try downloadImagesWrapper();
+                state = .None;
+            }
         },
         .BookmarkGet, .BookmarkSet => {
             var buffer_number_str: [10:0]u8 = undefined;
