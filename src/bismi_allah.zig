@@ -17,6 +17,7 @@ const Settings = struct {
 
 const page_navigator = @import("page_navigator.zig");
 const ui = @import("ui.zig");
+const download_images = @import("download_images.zig");
 
 pub const IMAGE_WIDTH = 1792;
 pub const IMAGE_HEIGHT = 2560;
@@ -38,6 +39,7 @@ pub fn main() !void {
     loadData() catch |e| {
         std.debug.print("alhamdo li Allah err: {any}\n", .{e});
     };
+    download_images.app_data_dir_path = app_data_dir_path;
 
     get_self_exe_dir_path: {
         const dir_path = std.fs.selfExeDirPathAlloc(allocator) catch |e| {
@@ -49,9 +51,17 @@ pub fn main() !void {
             std.log.err("alhamdo li Allah error while concating 'self_dir' and 'res': {any}\n", .{e});
             break :get_self_exe_dir_path;
         };
-        page_navigator.possible_quran_dir_paths_buffers[2] = res_path;
+        page_navigator.possible_quran_dir_paths_buffers[1] = res_path;
     }
-    defer allocator.free(page_navigator.possible_quran_dir_paths_buffers[2]);
+    defer allocator.free(page_navigator.possible_quran_dir_paths_buffers[1]);
+
+    {
+        const res_path = try std.mem.concatWithSentinel(allocator, u8, &[_][]u8{ app_data_dir_path, @constCast("/warsh-images") }, 0);
+        defer allocator.free(res_path);
+        std.mem.copyForwards(u8, &download_images.buffer_images_dir_path, res_path);
+        download_images.images_dir_path = download_images.buffer_images_dir_path[0..res_path.len];
+        page_navigator.possible_quran_dir_paths_buffers[0] = download_images.images_dir_path;
+    }
 
     ui.font = try sf.Font.createFromMemory(ui.font_data);
     defer ui.font.destroy();
@@ -61,7 +71,7 @@ pub fn main() !void {
 
     window.setFramerateLimit(30);
 
-    window.setSize(.{ .x = IMAGE_WIDTH / 2, .y = IMAGE_HEIGHT / 2 });
+    // window.setSize(.{ .x = IMAGE_WIDTH / 2, .y = IMAGE_HEIGHT / 2 });
 
     var quran_sprite = try sf.Sprite.create();
     defer quran_sprite.destroy();

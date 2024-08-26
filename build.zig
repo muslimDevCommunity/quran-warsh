@@ -46,7 +46,7 @@ pub fn build(b: *std.Build) !void {
         var comptime_file_name_destination_buffer: [std.fs.max_path_bytes]u8 = undefined;
         while (i < 604) : (i += 1) {
             const comptime_file_name_source_slice = try std.fmt.bufPrint(&comptime_file_name_source_buffer, "src/res/{d}-scaled.jpg", .{i + 1});
-            const comptime_file_name_destination_slice = try std.fmt.bufPrint(&comptime_file_name_destination_buffer, "res/{d}-scaled.jpg", .{i + 1});
+            const comptime_file_name_destination_slice = try std.fmt.bufPrint(&comptime_file_name_destination_buffer, "res/{d}.jpg", .{i + 1});
             b.installBinFile(comptime_file_name_source_slice, comptime_file_name_destination_slice);
         }
     }

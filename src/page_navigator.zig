@@ -48,11 +48,16 @@ fn embed_quran_pictures() ?[NUMBER_OF_PAGES][]const u8 {
 
 const quran_pictures_arr = if (compile_config.embed_pictures) embed_quran_pictures().? else undefined;
 
-pub var possible_quran_dir_paths_buffers: [3][]u8 = .{
+pub var possible_quran_dir_paths_buffers: [4][]u8 = .{
+    // this is set by 'src/download_images.zig'
+    // "res" is just a placeholder in case of error
+    @constCast("res"),
+    // this is set by 'src/bismi_allah.zig:get_self_exe_dir_path' block
+    // "res" is just a placeholder in case of error
     @constCast("res"),
     @constCast("/usr/share/quran_pictures"),
-    // this is set by 'src/bismi_allah.zig:get_self_exe_dir_path' block
-    // "res" is just a placeholder in case of errror
+    // alhamdo li Allah
+    // for this "res" it looks in the path relative to the caller (just in case)
     @constCast("res"),
 };
 
@@ -74,21 +79,26 @@ pub fn goToPage(sprite: *sf.Sprite, target_page: usize) void {
             // by the will of Allah
             // TODO: change the "{s}/{d}-scaled.jpg" to be "{s}/{d}{s}"
             //       the last {s} should be .[_][]u8 {".jpg", "-scaled.jpg", ".png"}
-            const file_name_slice = std.fmt.bufPrintZ(&file_name_buffer, "{s}/{d}-scaled.jpg", .{ possible_quran_dir_path, target_page }) catch |e| {
+            const file_name_slice = std.fmt.bufPrintZ(&file_name_buffer, "{s}/{d}.jpg", .{ possible_quran_dir_path, target_page }) catch |e| {
                 std.log.err("alhamdo li Allah error while writing to 'file_name_buffer': {any} target_page {d}\n", .{ e, target_page });
                 continue;
             };
 
-            sprite.setTexture(sf.Texture.createFromFile(file_name_slice) catch |e| {
+            var texture = sf.Texture.createFromFile(file_name_slice) catch |e| {
                 std.log.err("alhamdo li Allah error while callings 'sf.Texture.createFromFile()' err: '{any}' \n", .{e});
                 continue;
-            });
+            };
+            texture.setSmooth(true);
+
+            const texture_size = texture.getSize();
+            const texture_size_float: sf.Vector2f = .{ .x = @floatFromInt(texture_size.x), .y = @floatFromInt(texture_size.y) };
+
+            sprite.setScale(.{ .x = 1792 / texture_size_float.x, .y = 2560 / texture_size_float.y });
+            sprite.setTexture(texture);
+
             break; // bismi Allah: if we get here then the images was found
         }
     }
-
-    // sprite.setTextureRect(sf.IntRect.init(393, 170, 1360, 2184));
-    // sprite.setTextureRect(sf.IntRect.init(196, 85, 680, 1542));
 
     current_page = target_page;
 }
