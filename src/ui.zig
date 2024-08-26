@@ -2,6 +2,8 @@
 //la ilaha illa Allah Mohammed Rassoul Allah
 
 const std = @import("std");
+const compile_config = @import("compile_config");
+
 const sf = struct {
     const sfml = @import("sfml");
     usingnamespace sfml;
@@ -66,9 +68,11 @@ pub fn drawUi(window: *sf.RenderWindow, sprite: *sf.Sprite) !void {
             if (try imguiButton(window, .{ .top = 1000, .left = IMAGE_WIDTH / 4, .width = IMAGE_WIDTH / 2, .height = 100 }, "Hizb")) state = .Hizb;
             if (try imguiButton(window, .{ .top = 1100, .left = IMAGE_WIDTH / 4, .width = IMAGE_WIDTH / 2, .height = 100 }, "Go to bookmark")) state = .BookmarkGet;
             if (try imguiButton(window, .{ .top = 1200, .left = IMAGE_WIDTH / 4, .width = IMAGE_WIDTH / 2, .height = 100 }, "Set Bookmark")) state = .BookmarkSet;
-            if (try imguiButton(window, .{ .top = 1300, .left = IMAGE_WIDTH / 4, .width = IMAGE_WIDTH / 2, .height = 100 }, "download high resolution images")) {
-                try downloadImagesWrapper();
-                state = .None;
+            if (!compile_config.embed_pictures) {
+                if (try imguiButton(window, .{ .top = 1300, .left = IMAGE_WIDTH / 4, .width = IMAGE_WIDTH / 2, .height = 100 }, "download high resolution images")) {
+                    try downloadImagesWrapper();
+                    state = .None;
+                }
             }
         },
         .BookmarkGet, .BookmarkSet => {

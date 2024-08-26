@@ -1,6 +1,8 @@
 //بسم الله الرحمن الرحيم
 //la ilaha illa Allah Mohammed Rassoul Allah
 const std = @import("std");
+const compile_config = @import("compile_config");
+
 const sf = struct {
     const sfml = @import("sfml");
     usingnamespace sfml;
@@ -55,7 +57,7 @@ pub fn main() !void {
     }
     defer allocator.free(page_navigator.possible_quran_dir_paths_buffers[1]);
 
-    {
+    if (!compile_config.embed_pictures) {
         const res_path = try std.mem.concatWithSentinel(allocator, u8, &[_][]u8{ app_data_dir_path, @constCast("/warsh-images") }, 0);
         defer allocator.free(res_path);
         std.mem.copyForwards(u8, &download_images.buffer_images_dir_path, res_path);
