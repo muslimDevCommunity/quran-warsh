@@ -19,6 +19,9 @@ const downloadImagesWrapper = @import("download_images.zig").downloadImagesWrapp
 pub const font_data = @embedFile("res/18_Khebrat_Musamim_Regular.ttf");
 pub var font: sf.Font = undefined;
 
+pub var is_mouse_button_left_pressed: bool = false;
+pub var mouse_position: sf.Vector2i = undefined;
+
 const IMAGE_WIDTH = @import("bismi_allah.zig").IMAGE_WIDTH;
 const IMAGE_HEIGHT = @import("bismi_allah.zig").IMAGE_HEIGHT;
 
@@ -61,7 +64,7 @@ pub fn drawUi(window: *sf.RenderWindow, sprite: *sf.Sprite) !void {
             if (try imguiButton(window, .{ .left = IMAGE_WIDTH - 240, .top = IMAGE_HEIGHT / 2, .width = 230, .height = 100 }, "previous") and page_number > 0) page_number -= 1;
         },
         .None => {
-            if (sf.mouse.isButtonPressed(.left)) state = .Menu;
+            if (is_mouse_button_left_pressed) state = .Menu;
         },
         .Menu => {
             if (try imguiButton(window, .{ .top = 900, .left = IMAGE_WIDTH / 4, .width = IMAGE_WIDTH / 2, .height = 100 }, "Surah")) state = .Surah;
@@ -105,7 +108,7 @@ fn imguiButton(window: *sf.RenderWindow, rect: sf.Rect(f32), message: [:0]const 
     window.draw(button, null);
     window.draw(text_message, null);
 
-    if (!sf.mouse.isButtonPressed(.left)) return false;
+    if (!is_mouse_button_left_pressed) return false;
     // const mouse_pos = window.mapPixelToCoords(sf.mouse.getPosition(window.*), window.getView());
-    return rect.contains(window.mapPixelToCoords(sf.mouse.getPosition(window.*), window.getView()));
+    return rect.contains(window.mapPixelToCoords(mouse_position, window.getView()));
 }

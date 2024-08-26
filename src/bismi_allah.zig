@@ -132,6 +132,15 @@ pub fn main() !void {
                 //        toggleZoom();
                 // }
             },
+            .mouse_button_pressed => {
+                if (event.mouse_button_pressed.button == .left) ui.is_mouse_button_left_pressed = true;
+            },
+            .mouse_button_released => {
+                if (event.mouse_button_released.button == .left) ui.is_mouse_button_left_pressed = false;
+            },
+            .mouse_moved => {
+                ui.mouse_position = event.mouse_moved.pos;
+            },
             else => {},
         }
 
