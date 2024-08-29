@@ -15,6 +15,9 @@ const sf = struct {
 
 pub const NUMBER_OF_PAGES = 604;
 
+pub const WINDOW_WIDTH = @import("bismi_allah.zig").WINDOW_WIDTH;
+pub const WINDOW_HEIGHT = @import("bismi_allah.zig").WINDOW_HEIGHT;
+
 pub var current_page: usize = 1;
 pub var bookmarks: [10]usize = [1]usize{0} ** 10;
 
@@ -93,7 +96,7 @@ pub fn goToPage(sprite: *sf.Sprite, target_page: usize) void {
             const texture_size = texture.getSize();
             const texture_size_float: sf.Vector2f = .{ .x = @floatFromInt(texture_size.x), .y = @floatFromInt(texture_size.y) };
 
-            sprite.setScale(.{ .x = 1792 / texture_size_float.x, .y = 2560 / texture_size_float.y });
+            sprite.setScale(.{ .x = WINDOW_WIDTH / texture_size_float.x, .y = WINDOW_HEIGHT / texture_size_float.y });
             sprite.setTexture(texture);
 
             break; // bismi Allah: if we get here then the images was found

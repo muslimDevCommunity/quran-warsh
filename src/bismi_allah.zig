@@ -21,8 +21,8 @@ const page_navigator = @import("page_navigator.zig");
 const ui = @import("ui.zig");
 const download_images = @import("download_images.zig");
 
-pub const IMAGE_WIDTH = 1792;
-pub const IMAGE_HEIGHT = 2560;
+pub const WINDOW_WIDTH = 600;
+pub const WINDOW_HEIGHT = 900;
 
 // var flag_zoomed_in: bool = false;
 
@@ -68,7 +68,7 @@ pub fn main() !void {
     ui.font = try sf.Font.createFromMemory(ui.font_data);
     defer ui.font.destroy();
 
-    var window = try sf.RenderWindow.create(.{ .x = IMAGE_WIDTH, .y = IMAGE_HEIGHT }, 64, "quran warsh - tajweed quran", sf.Style.defaultStyle, null);
+    var window = try sf.RenderWindow.create(.{ .x = WINDOW_WIDTH, .y = WINDOW_HEIGHT }, 64, "quran warsh - tajweed quran", sf.Style.defaultStyle, null);
     defer window.destroy();
 
     window.setFramerateLimit(30);
