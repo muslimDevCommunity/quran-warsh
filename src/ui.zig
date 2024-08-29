@@ -90,7 +90,10 @@ pub fn drawUi(window: *sf.RenderWindow, sprite: *sf.Sprite) !void {
             }
         },
     }
-    if (state != .None and try imguiButton(window, .{ .top = 0, .left = 0, .width = WINDOW_WIDTH / 5, .height = BUTTON_HEIGHT }, "close")) state = .None;
+    if (state != .None and try imguiButton(window, .{ .top = 0, .left = 0, .width = WINDOW_WIDTH / 5, .height = BUTTON_HEIGHT }, "close")) {
+        state = .None;
+        page_number = 0;
+    }
 }
 
 fn imguiButton(window: *sf.RenderWindow, rect: sf.Rect(f32), message: [:0]const u8) !bool {
