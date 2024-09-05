@@ -23,5 +23,5 @@ and `zig build run` to run the app
 ## dependencies
 known dependencies are `csfml`
 
-`main.izg` is replaced with `bismi_allah.zig`
+`main.zig` is replaced with `bismi_allah.zig`
 
