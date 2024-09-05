@@ -7,8 +7,8 @@
 
     .dependencies = .{
         .sfml = .{
-            .url = "https://github.com/Guigui220D/zig-sfml-wrapper/archive/8ff5a6898baf0b3ae53e69c367257181662910c9.tar.gz",
-            .hash = "1220fd00dbf098b935ed4771943579d1a04be454fe5b42b11e1ba5205e050ac5ac34",
+            .url = "https://github.com/Guigui220D/zig-sfml-wrapper/archive/bf012025c70be4c101717a9041ce55c776b58d4d.tar.gz",
+            .hash = "1220711bf931da6bb89b3fa695f56dd938a749de9830fa479d850c279e3f739388db",
         },
     },
 
