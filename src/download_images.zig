@@ -46,7 +46,7 @@ fn downloadImages() !void {
         var uri_buffer: [2048]u8 = undefined;
 
         const image_file_path = try std.fmt.bufPrint(&image_file_path_buffer, "{d}.jpg", .{i + 1});
-        const uri_str = try std.fmt.bufPrint(&uri_buffer, "https://raw.githubusercontent.com/brmhmh/bluewarshhhh/upload/warshHDAzra9/{d}.jpg", .{i + 1});
+        const uri_str = try std.fmt.bufPrint(&uri_buffer, "https://raw.githubusercontent.com/IbrahimOuhamou/quran-images/main/nafie-warsh/azraq/tajweed-colored/{d}.jpg", .{i + 1});
 
         var image_file = images_dir.createFile(image_file_path, .{ .read = true }) catch |e| {
             if (e == std.fs.File.OpenError.PathAlreadyExists) continue;
