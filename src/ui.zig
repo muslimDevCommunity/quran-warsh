@@ -27,6 +27,19 @@ const WINDOW_HEIGHT = @import("bismi_allah.zig").WINDOW_HEIGHT;
 const BUTTON_WIDTH = WINDOW_WIDTH / 2;
 const BUTTON_HEIGHT: comptime_float = (3.90625 * WINDOW_HEIGHT) / 100.0;
 
+const utf32_numbers_literals = blk: {
+    var utf32_numbers: [61][:0]u32 = undefined;
+
+    for (0..61) |i| {
+        var number_buffer: [3]u8 = [1]u8{0} ** 3;
+        const number_slice = std.fmt.bufPrintZ(&number_buffer, "{d}", .{i}) catch @compileError("alhamdo li Allah error while making utf32_numbers_literals");
+        const number_slice_u32 = sf.toUnicodeComptime(number_slice);
+        utf32_numbers[i] = @constCast(number_slice_u32);
+    }
+
+    break :blk utf32_numbers;
+};
+
 var state = enum {
     Menu,
     None,
@@ -50,53 +63,51 @@ pub fn drawUi(window: *sf.RenderWindow, sprite: *sf.Sprite) !void {
                     page_number = 0;
                 }
             }
-            if (try imguiButton(window, .{ .left = 0, .top = WINDOW_HEIGHT - BUTTON_HEIGHT, .width = WINDOW_WIDTH / 3, .height = BUTTON_HEIGHT }, "next") and page_number < 5) page_number += 1;
-            if (try imguiButton(window, .{ .left = WINDOW_WIDTH - (WINDOW_WIDTH / 3), .top = WINDOW_HEIGHT - BUTTON_HEIGHT, .width = WINDOW_WIDTH / 3, .height = BUTTON_HEIGHT }, "previous") and page_number > 0) page_number -= 1;
+            if (try imguiButton(window, .{ .left = 0, .top = WINDOW_HEIGHT - BUTTON_HEIGHT, .width = WINDOW_WIDTH / 3, .height = BUTTON_HEIGHT }, sf.toUnicodeComptime("next")) and page_number < 5) page_number += 1;
+            if (try imguiButton(window, .{ .left = WINDOW_WIDTH - (WINDOW_WIDTH / 3), .top = WINDOW_HEIGHT - BUTTON_HEIGHT, .width = WINDOW_WIDTH / 3, .height = BUTTON_HEIGHT }, sf.toUnicodeComptime("previous")) and page_number > 0) page_number -= 1;
         },
         .Hizb => {
-            var buffer_number_str: [3:0]u8 = undefined;
             for (20 * page_number..page_number * 20 + 20) |i| {
-                if (try imguiButton(window, .{ .left = WINDOW_WIDTH / 4, .top = @as(f32, @floatFromInt(i - 20 * page_number)) * BUTTON_HEIGHT + (WINDOW_HEIGHT / 10), .width = WINDOW_WIDTH / 2, .height = BUTTON_HEIGHT }, try std.fmt.bufPrintZ(&buffer_number_str, "{d}", .{i + 1}))) {
+                if (try imguiButton(window, .{ .left = WINDOW_WIDTH / 4, .top = @as(f32, @floatFromInt(i - 20 * page_number)) * BUTTON_HEIGHT + (WINDOW_HEIGHT / 10), .width = WINDOW_WIDTH / 2, .height = BUTTON_HEIGHT }, utf32_numbers_literals[i + 1])) {
                     page_navigator.goToHizbByIndex(sprite, i);
                     state = .None;
                     page_number = 0;
                 }
             }
-            if (try imguiButton(window, .{ .left = 0, .top = WINDOW_HEIGHT - BUTTON_HEIGHT, .width = WINDOW_WIDTH / 3, .height = BUTTON_HEIGHT }, "next") and page_number < 2) page_number += 1;
-            if (try imguiButton(window, .{ .left = WINDOW_WIDTH - (WINDOW_WIDTH / 3), .top = WINDOW_HEIGHT - BUTTON_HEIGHT, .width = WINDOW_WIDTH / 3, .height = BUTTON_HEIGHT }, "previous") and page_number > 0) page_number -= 1;
+            if (try imguiButton(window, .{ .left = 0, .top = WINDOW_HEIGHT - BUTTON_HEIGHT, .width = WINDOW_WIDTH / 3, .height = BUTTON_HEIGHT }, sf.toUnicodeComptime("next")) and page_number < 2) page_number += 1;
+            if (try imguiButton(window, .{ .left = WINDOW_WIDTH - (WINDOW_WIDTH / 3), .top = WINDOW_HEIGHT - BUTTON_HEIGHT, .width = WINDOW_WIDTH / 3, .height = BUTTON_HEIGHT }, sf.toUnicodeComptime("previous")) and page_number > 0) page_number -= 1;
         },
         .None => {
             if (is_mouse_button_left_pressed) state = .Menu;
         },
         .Menu => {
-            if (try imguiButton(window, .{ .top = (WINDOW_HEIGHT / 4), .left = WINDOW_WIDTH / 4, .width = WINDOW_WIDTH / 2, .height = BUTTON_HEIGHT }, "Surah")) state = .Surah;
-            if (try imguiButton(window, .{ .top = (WINDOW_HEIGHT / 4) + (BUTTON_HEIGHT * 1), .left = WINDOW_WIDTH / 4, .width = WINDOW_WIDTH / 2, .height = BUTTON_HEIGHT }, "Hizb")) state = .Hizb;
-            if (try imguiButton(window, .{ .top = (WINDOW_HEIGHT / 4) + (BUTTON_HEIGHT * 2), .left = WINDOW_WIDTH / 4, .width = WINDOW_WIDTH / 2, .height = BUTTON_HEIGHT }, "Go to bookmark")) state = .BookmarkGet;
-            if (try imguiButton(window, .{ .top = (WINDOW_HEIGHT / 4) + (BUTTON_HEIGHT * 3), .left = WINDOW_WIDTH / 4, .width = WINDOW_WIDTH / 2, .height = BUTTON_HEIGHT }, "Set Bookmark")) state = .BookmarkSet;
+            if (try imguiButton(window, .{ .top = (WINDOW_HEIGHT / 4), .left = WINDOW_WIDTH / 4, .width = WINDOW_WIDTH / 2, .height = BUTTON_HEIGHT }, sf.toUnicodeComptime("Surah"))) state = .Surah;
+            if (try imguiButton(window, .{ .top = (WINDOW_HEIGHT / 4) + (BUTTON_HEIGHT * 1), .left = WINDOW_WIDTH / 4, .width = WINDOW_WIDTH / 2, .height = BUTTON_HEIGHT }, sf.toUnicodeComptime("Hizb"))) state = .Hizb;
+            if (try imguiButton(window, .{ .top = (WINDOW_HEIGHT / 4) + (BUTTON_HEIGHT * 2), .left = WINDOW_WIDTH / 4, .width = WINDOW_WIDTH / 2, .height = BUTTON_HEIGHT }, sf.toUnicodeComptime("Go to bookmark"))) state = .BookmarkGet;
+            if (try imguiButton(window, .{ .top = (WINDOW_HEIGHT / 4) + (BUTTON_HEIGHT * 3), .left = WINDOW_WIDTH / 4, .width = WINDOW_WIDTH / 2, .height = BUTTON_HEIGHT }, sf.toUnicodeComptime("Set Bookmark"))) state = .BookmarkSet;
             if (!compile_config.embed_pictures) {
-                if (try imguiButton(window, .{ .top = (WINDOW_HEIGHT / 4) + (BUTTON_HEIGHT * 4), .left = WINDOW_WIDTH / 4, .width = WINDOW_WIDTH / 2, .height = BUTTON_HEIGHT }, "download high resolution images")) {
+                if (try imguiButton(window, .{ .top = (WINDOW_HEIGHT / 4) + (BUTTON_HEIGHT * 4), .left = WINDOW_WIDTH / 4, .width = WINDOW_WIDTH / 2, .height = BUTTON_HEIGHT }, sf.toUnicodeComptime("download high resolution images"))) {
                     try downloadImagesWrapper();
                     state = .None;
                 }
             }
         },
         .BookmarkGet, .BookmarkSet => {
-            var buffer_number_str: [10:0]u8 = undefined;
             for (0..10) |i| {
-                if (try imguiButton(window, .{ .left = WINDOW_WIDTH / 4, .top = @as(f32, @floatFromInt(i)) * BUTTON_HEIGHT + (WINDOW_HEIGHT / 4), .width = WINDOW_WIDTH / 2, .height = BUTTON_HEIGHT }, try std.fmt.bufPrintZ(&buffer_number_str, "{d}", .{i + 1}))) {
+                if (try imguiButton(window, .{ .left = WINDOW_WIDTH / 4, .top = @as(f32, @floatFromInt(i)) * BUTTON_HEIGHT + (WINDOW_HEIGHT / 4), .width = WINDOW_WIDTH / 2, .height = BUTTON_HEIGHT }, utf32_numbers_literals[i + 1])) {
                     if (state == .BookmarkSet) page_navigator.bookmarks[i] = page_navigator.current_page else page_navigator.goToPage(sprite, page_navigator.bookmarks[i]);
                     state = .None;
                 }
             }
         },
     }
-    if (state != .None and try imguiButton(window, .{ .top = 0, .left = 0, .width = WINDOW_WIDTH / 5, .height = BUTTON_HEIGHT }, "close")) {
+    if (state != .None and try imguiButton(window, .{ .top = 0, .left = 0, .width = WINDOW_WIDTH / 5, .height = BUTTON_HEIGHT }, sf.toUnicodeComptime("close"))) {
         state = .None;
         page_number = 0;
     }
 }
 
-fn imguiButton(window: *sf.RenderWindow, rect: sf.Rect(f32), message: [:0]const u8) !bool {
+fn imguiButton(window: *sf.RenderWindow, rect: sf.Rect(f32), message: [:0]const u32) !bool {
     var button = try sf.RectangleShape.create(rect.getSize());
     button.setPosition(rect.getPosition());
     defer button.destroy();
@@ -104,7 +115,7 @@ fn imguiButton(window: *sf.RenderWindow, rect: sf.Rect(f32), message: [:0]const 
     // button.setFillColor(.{ .r = 0, .g = 0, .b = 0, .a = 0 });
     button.setFillColor(sf.Color.Black);
 
-    var text_message = try sf.Text.createWithText(message, font, @intFromFloat(rect.height * 0.75));
+    var text_message = try sf.Text.createWithTextUnicode(message, font, @intFromFloat(rect.height * 0.75));
     defer text_message.destroy();
 
     text_message.setFillColor(sf.Color.White);
