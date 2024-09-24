@@ -45,6 +45,10 @@ fn toUnicodeWrapper(utf8: []const u8) [:0]const u32 {
     return sf.toUnicodeComptime(utf8);
 }
 
+/// the names of every surah in utf32
+/// it an array of utf8 converted to utf32 at compile time
+/// note: these are utf codes 'as is' copied letter by letter rather
+///       than writing letting a formatter format them
 pub const surah_names = [114][:0]const u32{
     toUnicodeWrapper("\u{FE94}\u{FEA4}\u{FE97}\u{FE8E}\u{FED4}\u{FEDF}\u{FE8D}"), //al fatihah
     toUnicodeWrapper("\u{FE93}\u{FEAE}\u{FED8}\u{FE92}\u{FEDF}\u{FE8D}"), //al bakarah
@@ -143,9 +147,9 @@ pub const surah_names = [114][:0]const u32{
     toUnicodeWrapper("ﻦﻴﺘﻟﺍ"), //al tin
     toUnicodeWrapper("ﻖﻠﻌﻟﺍ"), //al alaq
     toUnicodeWrapper("رﺪﻘﻟﺍ"), //al qadr
-    toUnicodeWrapper("ﺔﻨﻴﺒﻟﺍ"),//al bayyinah
+    toUnicodeWrapper("ﺔﻨﻴﺒﻟﺍ"), //al bayyinah
     toUnicodeWrapper("ﺔﻟﺰﻟﺰﻟﺍ"), //al zalzalah
-    toUnicodeWrapper("ﺕﺎﻳدﺎﻌﻟﺍ"),//al adiyat
+    toUnicodeWrapper("ﺕﺎﻳدﺎﻌﻟﺍ"), //al adiyat
     toUnicodeWrapper("ﺔﻋرﺎﻘﻟﺍ"), //al qari'ah
     toUnicodeWrapper("ﺮﺛﺎﻜﺘﻟﺍ"), //al takathur
     toUnicodeWrapper("ﺮﺼﻌﻟﺍ"), //al asr
