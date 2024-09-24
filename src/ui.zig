@@ -245,7 +245,14 @@ fn imguiButton(window: *sf.RenderWindow, rect: sf.Rect(f32), message: [:0]const 
     defer text_message.destroy();
 
     text_message.setFillColor(sf.Color.White);
-    text_message.setPosition(rect.getPosition());
+    {
+        var final_text_pos = rect.getPosition();
+
+        //TODO: make the '- 10' relative
+        final_text_pos.x = (rect.left + rect.width) - text_message.getGlobalBounds().width - 10;
+
+        text_message.setPosition(final_text_pos);
+    }
 
     window.draw(button, null);
     window.draw(text_message, null);
