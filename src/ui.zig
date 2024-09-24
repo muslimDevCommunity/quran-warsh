@@ -189,8 +189,8 @@ pub fn drawUi(window: *sf.RenderWindow, sprite: *sf.Sprite) !void {
                     page_number = 0;
                 }
             }
-            if (try imguiButton(window, .{ .left = 0, .top = WINDOW_HEIGHT - BUTTON_HEIGHT, .width = WINDOW_WIDTH / 3, .height = BUTTON_HEIGHT }, sf.toUnicodeComptime("next")) and page_number < 5) page_number += 1;
-            if (try imguiButton(window, .{ .left = WINDOW_WIDTH - (WINDOW_WIDTH / 3), .top = WINDOW_HEIGHT - BUTTON_HEIGHT, .width = WINDOW_WIDTH / 3, .height = BUTTON_HEIGHT }, sf.toUnicodeComptime("previous")) and page_number > 0) page_number -= 1;
+            if (try imguiButton(window, .{ .left = 0, .top = WINDOW_HEIGHT - BUTTON_HEIGHT, .width = WINDOW_WIDTH / 3, .height = BUTTON_HEIGHT }, sf.toUnicodeComptime("ﻲﻟﺎﺘﻟﺍ")) and page_number < 5) page_number += 1;
+            if (try imguiButton(window, .{ .left = WINDOW_WIDTH - (WINDOW_WIDTH / 3), .top = WINDOW_HEIGHT - BUTTON_HEIGHT, .width = WINDOW_WIDTH / 3, .height = BUTTON_HEIGHT }, sf.toUnicodeComptime("ﻖﺑﺎﺴﻟﺍ")) and page_number > 0) page_number -= 1;
         },
         .Hizb => {
             for (20 * page_number..page_number * 20 + 20) |i| {
@@ -200,19 +200,19 @@ pub fn drawUi(window: *sf.RenderWindow, sprite: *sf.Sprite) !void {
                     page_number = 0;
                 }
             }
-            if (try imguiButton(window, .{ .left = 0, .top = WINDOW_HEIGHT - BUTTON_HEIGHT, .width = WINDOW_WIDTH / 3, .height = BUTTON_HEIGHT }, sf.toUnicodeComptime("next")) and page_number < 2) page_number += 1;
-            if (try imguiButton(window, .{ .left = WINDOW_WIDTH - (WINDOW_WIDTH / 3), .top = WINDOW_HEIGHT - BUTTON_HEIGHT, .width = WINDOW_WIDTH / 3, .height = BUTTON_HEIGHT }, sf.toUnicodeComptime("previous")) and page_number > 0) page_number -= 1;
+            if (try imguiButton(window, .{ .left = 0, .top = WINDOW_HEIGHT - BUTTON_HEIGHT, .width = WINDOW_WIDTH / 3, .height = BUTTON_HEIGHT }, sf.toUnicodeComptime("ﻲﻟﺎﺘﻟﺍ")) and page_number < 2) page_number += 1;
+            if (try imguiButton(window, .{ .left = WINDOW_WIDTH - (WINDOW_WIDTH / 3), .top = WINDOW_HEIGHT - BUTTON_HEIGHT, .width = WINDOW_WIDTH / 3, .height = BUTTON_HEIGHT }, sf.toUnicodeComptime("ﻖﺑﺎﺴﻟﺍ")) and page_number > 0) page_number -= 1;
         },
         .None => {
             if (is_mouse_button_left_pressed) state = .Menu;
         },
         .Menu => {
-            if (try imguiButton(window, .{ .top = (WINDOW_HEIGHT / 4), .left = WINDOW_WIDTH / 4, .width = WINDOW_WIDTH / 2, .height = BUTTON_HEIGHT }, sf.toUnicodeComptime("Surah"))) state = .Surah;
-            if (try imguiButton(window, .{ .top = (WINDOW_HEIGHT / 4) + (BUTTON_HEIGHT * 1), .left = WINDOW_WIDTH / 4, .width = WINDOW_WIDTH / 2, .height = BUTTON_HEIGHT }, sf.toUnicodeComptime("Hizb"))) state = .Hizb;
-            if (try imguiButton(window, .{ .top = (WINDOW_HEIGHT / 4) + (BUTTON_HEIGHT * 2), .left = WINDOW_WIDTH / 4, .width = WINDOW_WIDTH / 2, .height = BUTTON_HEIGHT }, sf.toUnicodeComptime("Go to bookmark"))) state = .BookmarkGet;
-            if (try imguiButton(window, .{ .top = (WINDOW_HEIGHT / 4) + (BUTTON_HEIGHT * 3), .left = WINDOW_WIDTH / 4, .width = WINDOW_WIDTH / 2, .height = BUTTON_HEIGHT }, sf.toUnicodeComptime("Set Bookmark"))) state = .BookmarkSet;
+            if (try imguiButton(window, .{ .top = (WINDOW_HEIGHT / 4), .left = WINDOW_WIDTH / 4, .width = WINDOW_WIDTH / 2, .height = BUTTON_HEIGHT }, sf.toUnicodeComptime("رﻮﺴﻟﺍ"))) state = .Surah;
+            if (try imguiButton(window, .{ .top = (WINDOW_HEIGHT / 4) + (BUTTON_HEIGHT * 1), .left = WINDOW_WIDTH / 4, .width = WINDOW_WIDTH / 2, .height = BUTTON_HEIGHT }, sf.toUnicodeComptime("باﺰﺣﻷﺍ"))) state = .Hizb;
+            if (try imguiButton(window, .{ .top = (WINDOW_HEIGHT / 4) + (BUTTON_HEIGHT * 2), .left = WINDOW_WIDTH / 4, .width = WINDOW_WIDTH / 2, .height = BUTTON_HEIGHT }, sf.toUnicodeComptime("ﺔﻣﻼﻌﻟا ﻰﻟإ ﻞﻘﺘﻧإ"))) state = .BookmarkGet;
+            if (try imguiButton(window, .{ .top = (WINDOW_HEIGHT / 4) + (BUTTON_HEIGHT * 3), .left = WINDOW_WIDTH / 4, .width = WINDOW_WIDTH / 2, .height = BUTTON_HEIGHT }, sf.toUnicodeComptime("ﺔﻣﻼﻌﻟا ﻆﻔﺣ"))) state = .BookmarkSet;
             if (!compile_config.embed_pictures) {
-                if (try imguiButton(window, .{ .top = (WINDOW_HEIGHT / 4) + (BUTTON_HEIGHT * 4), .left = WINDOW_WIDTH / 4, .width = WINDOW_WIDTH / 2, .height = BUTTON_HEIGHT }, sf.toUnicodeComptime("download high resolution images"))) {
+                if (try imguiButton(window, .{ .top = (WINDOW_HEIGHT / 4) + (BUTTON_HEIGHT * 4), .left = WINDOW_WIDTH / 4, .width = WINDOW_WIDTH / 2, .height = BUTTON_HEIGHT }, sf.toUnicodeComptime("ةدﻮﺠﻟﺍ ﺔﻴﻟﺎﻋ رﻮﺼﻟﺍ ﻞﻳﺰﻨﺗ"))) {
                     try downloadImagesWrapper();
                     state = .None;
                 }
@@ -227,7 +227,7 @@ pub fn drawUi(window: *sf.RenderWindow, sprite: *sf.Sprite) !void {
             }
         },
     }
-    if (state != .None and try imguiButton(window, .{ .top = 0, .left = 0, .width = WINDOW_WIDTH / 5, .height = BUTTON_HEIGHT }, sf.toUnicodeComptime("close"))) {
+    if (state != .None and try imguiButton(window, .{ .top = 0, .left = 0, .width = WINDOW_WIDTH / 5, .height = BUTTON_HEIGHT }, sf.toUnicodeComptime("ﻖﻠﻏأ"))) {
         state = .None;
         page_number = 0;
     }
