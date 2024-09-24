@@ -41,125 +41,125 @@ const utf32_numbers_literals = blk: {
 };
 
 fn toUnicodeWrapper(utf8: []const u8) [:0]const u32 {
-    @setEvalBranchQuota(5109); //minimal one required thanks to Allah
+    @setEvalBranchQuota(10000); //minimal one required thanks to Allah
     return sf.toUnicodeComptime(utf8);
 }
 
 pub const surah_names = [114][:0]const u32{
-    toUnicodeWrapper("fatihah"),
-    toUnicodeWrapper("bakarah"),
-    toUnicodeWrapper("al imran"),
-    toUnicodeWrapper("nisa"),
-    toUnicodeWrapper("maidah"),
-    toUnicodeWrapper("anam"),
-    toUnicodeWrapper("a'raf"),
-    toUnicodeWrapper("anfal"),
-    toUnicodeWrapper("tawbah"),
-    toUnicodeWrapper("yunus"),
-    toUnicodeWrapper("hud"),
-    toUnicodeWrapper("yusuf"),
-    toUnicodeWrapper("raad"),
-    toUnicodeWrapper("ibrahim"),
-    toUnicodeWrapper("hijr"),
-    toUnicodeWrapper("nahl"),
-    toUnicodeWrapper("isra"),
-    toUnicodeWrapper("kahf"),
-    toUnicodeWrapper("maryam"),
-    toUnicodeWrapper("taha"),
-    toUnicodeWrapper("anbiya"),
-    toUnicodeWrapper("hajj"),
-    toUnicodeWrapper("muminun"),
-    toUnicodeWrapper("nur"),
-    toUnicodeWrapper("furqan"),
-    toUnicodeWrapper("shu'ara"),
-    toUnicodeWrapper("naml"),
-    toUnicodeWrapper("qasas"),
-    toUnicodeWrapper("ankabut"),
-    toUnicodeWrapper("rum"),
-    toUnicodeWrapper("luqman"),
-    toUnicodeWrapper("sajdah"),
-    toUnicodeWrapper("ahzab"),
-    toUnicodeWrapper("saba"),
-    toUnicodeWrapper("fatir"),
-    toUnicodeWrapper("yasin"),
-    toUnicodeWrapper("saffat"),
-    toUnicodeWrapper("sad"),
-    toUnicodeWrapper("zumar"),
-    toUnicodeWrapper("ghafir"),
-    toUnicodeWrapper("fussilat"),
-    toUnicodeWrapper("shura"),
-    toUnicodeWrapper("zukhruf"),
-    toUnicodeWrapper("dukhan"),
-    toUnicodeWrapper("jathiyah"),
-    toUnicodeWrapper("ahqaf"),
-    toUnicodeWrapper("muhammad"),
-    toUnicodeWrapper("fath"),
-    toUnicodeWrapper("hujurat"),
-    toUnicodeWrapper("qaf"),
-    toUnicodeWrapper("dhariyat"),
-    toUnicodeWrapper("tur"),
-    toUnicodeWrapper("najm"),
-    toUnicodeWrapper("qamar"),
-    toUnicodeWrapper("rahman"),
-    toUnicodeWrapper("waqiah"),
-    toUnicodeWrapper("hadid"),
-    toUnicodeWrapper("mujadilah"),
-    toUnicodeWrapper("hashr"),
-    toUnicodeWrapper("mumtahanah"),
-    toUnicodeWrapper("saff"),
-    toUnicodeWrapper("jumu'ah"),
-    toUnicodeWrapper("munafiqun"),
-    toUnicodeWrapper("taghabun"),
-    toUnicodeWrapper("talaq"),
-    toUnicodeWrapper("tahrim"),
-    toUnicodeWrapper("mulk"),
-    toUnicodeWrapper("qalam"),
-    toUnicodeWrapper("haqqah"),
-    toUnicodeWrapper("maarij"),
-    toUnicodeWrapper("nuh"),
-    toUnicodeWrapper("jinn"),
-    toUnicodeWrapper("muzzammil"),
-    toUnicodeWrapper("muddathir"),
-    toUnicodeWrapper("qiyamah"),
-    toUnicodeWrapper("insan"),
-    toUnicodeWrapper("mursalat"),
-    toUnicodeWrapper("naba"),
-    toUnicodeWrapper("naziat"),
-    toUnicodeWrapper("abasa"),
-    toUnicodeWrapper("takwir"),
-    toUnicodeWrapper("infitar"),
-    toUnicodeWrapper("mutaffifin"),
-    toUnicodeWrapper("inshiqaq"),
-    toUnicodeWrapper("buruj"),
-    toUnicodeWrapper("tariq"),
-    toUnicodeWrapper("a'la"),
-    toUnicodeWrapper("ghashiyah"),
-    toUnicodeWrapper("fajr"),
-    toUnicodeWrapper("balad"),
-    toUnicodeWrapper("shams"),
-    toUnicodeWrapper("layl"),
-    toUnicodeWrapper("duha"),
-    toUnicodeWrapper("sharh"),
-    toUnicodeWrapper("tin"),
-    toUnicodeWrapper("alaq"),
-    toUnicodeWrapper("qadr"),
-    toUnicodeWrapper("bayyinah"),
-    toUnicodeWrapper("zalzalah"),
-    toUnicodeWrapper("adiyat"),
-    toUnicodeWrapper("qari'ah"),
-    toUnicodeWrapper("takathur"),
-    toUnicodeWrapper("asr"),
-    toUnicodeWrapper("humazah"),
-    toUnicodeWrapper("fil"),
-    toUnicodeWrapper("quraish"),
-    toUnicodeWrapper("ma'un"),
-    toUnicodeWrapper("kawthar"),
-    toUnicodeWrapper("kafirun"),
-    toUnicodeWrapper("nasr"),
-    toUnicodeWrapper("masad"),
-    toUnicodeWrapper("ikhlas"),
-    toUnicodeWrapper("falaq"),
-    toUnicodeWrapper("nas"),
+    toUnicodeWrapper("\u{FE94}\u{FEA4}\u{FE97}\u{FE8E}\u{FED4}\u{FEDF}\u{FE8D}"), //al fatihah
+    toUnicodeWrapper("\u{FE93}\u{FEAE}\u{FED8}\u{FE92}\u{FEDF}\u{FE8D}"), //al bakarah
+    toUnicodeWrapper("\u{FEE5}\u{FE8D}\u{FEAE}\u{FEE4}\u{FECB} \u{FEDD}\u{FE81}"), //al imran
+    toUnicodeWrapper("\u{FE80}\u{FE8E}\u{FEB4}\u{FEE8}\u{FEDF}\u{FE8D}"), //al nisa
+    toUnicodeWrapper("\u{FE93}\u{FEAA}\u{FE8B}\u{FE8E}\u{FEE4}\u{FEDF}\u{FE8D}"), //al maidah
+    toUnicodeWrapper("\u{FEE1}\u{FE8E}\u{FECC}\u{FEE7}\u{FEF7}\u{FE8D}"), //al anam
+    toUnicodeWrapper("\u{FED1}\u{FE8D}\u{FEAE}\u{FECB}\u{FEF7}\u{FE8D}"), //al a'raf
+    toUnicodeWrapper("\u{FEDD}\u{FE8E}\u{FED4}\u{FEE7}\u{FEF7}\u{FE8D}"), //al anfal
+    toUnicodeWrapper("\u{FE94}\u{FE91}\u{FEEE}\u{FE98}\u{FEDF}\u{FE8D}"), //tawbah
+    toUnicodeWrapper("\u{FEB2}\u{FEE7}\u{FEEE}\u{FEF3}"), //yunus
+    toUnicodeWrapper("\u{FEA9}\u{FEEE}\u{FEEB}"), //hud
+    toUnicodeWrapper("\u{FED2}\u{FEB3}\u{FEEE}\u{FEF3}"), //yusuf
+    toUnicodeWrapper("\u{FEAA}\u{FECB}\u{FEAE}\u{FEDF}\u{FE8D}"), //al ra'd
+    toUnicodeWrapper("\u{FEE2}\u{FEF4}\u{FEEB}\u{FE8D}\u{FEAE}\u{FE91}\u{FE87}"), //Ibrahim
+    toUnicodeWrapper("\u{FEAE}\u{FEA0}\u{FEA4}\u{FEDF}\u{FE8D}"), //al hijr
+    toUnicodeWrapper("\u{FEDE}\u{FEA4}\u{FEE8}\u{FEDF}\u{FE8D}"), //al nahl
+    toUnicodeWrapper("\u{FE80}\u{FE8D}\u{FEAE}\u{FEB3}\u{FEF9}\u{FE8D}"), //al isra'
+    toUnicodeWrapper("\u{FED2}\u{FEEC}\u{FEDC}\u{FEDF}\u{FE8D}"), //al kahf
+    toUnicodeWrapper("\u{FEE2}\u{FEF3}\u{FEAE}\u{FEE3}"), //Mariem
+    toUnicodeWrapper("\u{FEEA}\u{FEC1}"), //taha
+    toUnicodeWrapper("\u{FE80}\u{FE8E}\u{FEF4}\u{FE92}\u{FEE7}\u{FEF7}\u{FE8D}"), //al anbia'
+    toUnicodeWrapper("\u{FE9E}\u{FEA4}\u{FEDF}\u{FE8D}"), //al haj
+    toUnicodeWrapper("\u{FEE5}\u{FEEE}\u{FEE8}\u{FEE3}\u{FEEE}\u{FEE4}\u{FEDF}\u{FE8D}"), //al muminun
+    toUnicodeWrapper("\u{FEAD}\u{FEEE}\u{FEE8}\u{FEDF}\u{FE8D}"), //al nur
+    toUnicodeWrapper("\u{FEE5}\u{FE8E}\u{FED7}\u{FEAE}\u{FED4}\u{FEDF}\u{FE8D}"), //al furqan
+    toUnicodeWrapper("\u{FEEF}\u{FEAD}\u{FEEE}\u{FEB8}\u{FEDF}\u{FE8D}"), //shu'ara
+    toUnicodeWrapper("\u{FEDE}\u{FEE4}\u{FEE8}\u{FEDF}\u{FE8D}"), //al naml
+    toUnicodeWrapper("\u{FEBA}\u{FEBC}\u{FED8}\u{FEDF}\u{FE8D}"), //al qasas
+    toUnicodeWrapper("\u{FE95}\u{FEEE}\u{FEDC}\u{FEE8}\u{FECC}\u{FEDF}\u{FE8D}"), //al ankabut
+    toUnicodeWrapper("\u{FEE1}\u{FEED}\u{FEAE}\u{FEDF}\u{FE8D}"), //al rum
+    toUnicodeWrapper("\u{FEE5}\u{FE8E}\u{FEE4}\u{FED8}\u{FEDF}"), //luqman
+    toUnicodeWrapper("\u{FE93}\u{FEAA}\u{FEA0}\u{FEB4}\u{FEDF}\u{FE8D}"), //al sajdah
+    toUnicodeWrapper("\u{FE8F}\u{FE8D}\u{FEB0}\u{FEA3}\u{FEF7}\u{FE8D}"), //al ahzab
+    toUnicodeWrapper("\u{FE84}\u{FE92}\u{FEB3}"), //saba
+    toUnicodeWrapper("\u{FEAE}\u{FEC3}\u{FE8E}\u{FED3}"), //fatir
+    toUnicodeWrapper("\u{FEB2}\u{FEF3}"), //yasin
+    toUnicodeWrapper("\u{FE95}\u{FE8E}\u{FED3}\u{FE8E}\u{FEBC}\u{FEDF}\u{FE8D}"), //saffat
+    toUnicodeWrapper("\u{FEB9}"), //sad
+    toUnicodeWrapper("\u{FEAE}\u{FEE3}\u{FEB0}\u{FEDF}\u{FE8D}"), //al zumar
+    toUnicodeWrapper("\u{FEAE}\u{FED3}\u{FE8E}\u{FECF}"), //ghafir
+    toUnicodeWrapper("ﺖ\u{FEE0}\u{FEBC}\u{FED3}"), //fussilat
+    toUnicodeWrapper("ىرﻮﺸﻟﺍ"), //al shura
+    toUnicodeWrapper("ﻑﺮﺧﺰﻟﺍ"), //zukhruf
+    toUnicodeWrapper("ﻥﺎﺧﺪﻟﺍ"), //al dukhan
+    toUnicodeWrapper("ﺔﻴﺛﺎﺠﻟﺍ"), //al jathiyah
+    toUnicodeWrapper("ﻑﺎﻘﺣﻷﺍ"), //al ahqaf
+    toUnicodeWrapper("ﺪﻤﺤﻣ"), //muhammad
+    toUnicodeWrapper("ﺢﺘﻔﻟﺍ"), //al fath
+    toUnicodeWrapper("ﺕﺍﺮﺠﺤﻟﺍ"), //al hujurat
+    toUnicodeWrapper("ق"), //qaf
+    toUnicodeWrapper("ﺕﺎﻳرﺍﺬﻟﺍ"), //al dhariyat
+    toUnicodeWrapper("رﻮﻂﻟﺍ"), //al tur
+    toUnicodeWrapper("ﻢﺠﻨﻟﺍ"), //al najm
+    toUnicodeWrapper("ﺮﻤﻘﻟﺍ"), //al qamar
+    toUnicodeWrapper("ﻥﺎﻤﺣﺮﻟﺍ"), //al rahman
+    toUnicodeWrapper("ﺔﻌﻗاﻮﻟﺍ"), //al waqiah
+    toUnicodeWrapper("ﺪﻳﺪﺤﻟﺍ"), //al hadid
+    toUnicodeWrapper("ﺔﻟدﺎﺠﻤﻟﺍ"), //al mujadilah
+    toUnicodeWrapper("ﺮﺸﺤﻟﺍ"), //al hashr
+    toUnicodeWrapper("ﺔﻨﺤﺘﻤﻤﻟﺍ"), //al mumtahanah
+    toUnicodeWrapper("ﻒﺼﻟﺍ"), //al saff
+    toUnicodeWrapper("ﺔﻌﻤﺠﻟﺍ"), //al jumu'ah
+    toUnicodeWrapper("نﻮﻘﻓﺎﻨﻤﻟﺍ"), //al munafiqun
+    toUnicodeWrapper("ﻦﺑﺎﻐﺘﻟﺍ"), //ak taghabun
+    toUnicodeWrapper("قﻼﻂﻟﺍ"), //al talaq
+    toUnicodeWrapper("ﻢﻳﺮﺤﺘﻟﺍ"), //al tahrim
+    toUnicodeWrapper("ﻚﻠﻤﻟﺍ"), //al mulk
+    toUnicodeWrapper("ﻢﻠﻘﻟﺍ"), //al qalam
+    toUnicodeWrapper("ﺔﻗﺎﺤﻟﺍ"), //al haqqah
+    toUnicodeWrapper("جرﺎﻌﻤﻟﺍ"), //al maarij
+    toUnicodeWrapper("حﻮﻧ"), //nuh
+    toUnicodeWrapper("ﻦﺠﻟﺍ"), //al jinn
+    toUnicodeWrapper("ﻞﻣﺰﻤﻟﺍ"), //al muzzammil
+    toUnicodeWrapper("ﺮﺛﺪﻤﻟﺍ"), //al muddathir
+    toUnicodeWrapper("ﺔﻣﺎﻴﻘﻟﺍ"), //al qiyamah
+    toUnicodeWrapper("ﻥﺎﺴﻧﻹﺍ"), //al insan
+    toUnicodeWrapper("تﻼﺳﺮﻤﻟﺍ"), //al mursalat
+    toUnicodeWrapper("ﺄﺒﻨﻟﺍ"), //al naba
+    toUnicodeWrapper("تﺎﻋﺯﺎﻨﻟﺍ"), //al naziat
+    toUnicodeWrapper("ﺲﺒﻋ"), //abasa
+    toUnicodeWrapper("ﺮﻳﻮﻜﺘﻟﺍ"), //al takwir
+    toUnicodeWrapper("رﺎﻄﻔﻧﻹﺍ"), //al infitar
+    toUnicodeWrapper("ﻦﻴﻔﻔﻄﻤﻟﺍ"), //al mutaffifin
+    toUnicodeWrapper("قﺎﻘﺸﻧﻹﺍ"), //al inshiqaq
+    toUnicodeWrapper("جوﺮﺒﻟﺍ"), //al buruj
+    toUnicodeWrapper("قرﺎﻄﻟﺍ"), //al tariq
+    toUnicodeWrapper("ﻰﻠﻋﻷﺍ"), //al a'la
+    toUnicodeWrapper("ﺔﻴﺷﺎﻐﻟﺍ"), //al ghashiyah
+    toUnicodeWrapper("ﺮﺠﻔﻟﺍ"), //al fajr
+    toUnicodeWrapper("ﺪﻠﺒﻟﺍ"), //al balad
+    toUnicodeWrapper("ﺲﻤﺸﻟﺍ"), //al shams
+    toUnicodeWrapper("ﻞﻴﻠﻟﺍ"), //al layl
+    toUnicodeWrapper("ﻰﺤﻀﻟﺍ"), //al duha
+    toUnicodeWrapper("حﺮﺸﻟﺍ"), //al sharh
+    toUnicodeWrapper("ﻦﻴﺘﻟﺍ"), //al tin
+    toUnicodeWrapper("ﻖﻠﻌﻟﺍ"), //al alaq
+    toUnicodeWrapper("رﺪﻘﻟﺍ"), //al qadr
+    toUnicodeWrapper("ﺔﻨﻴﺒﻟﺍ"),//al bayyinah
+    toUnicodeWrapper("ﺔﻟﺰﻟﺰﻟﺍ"), //al zalzalah
+    toUnicodeWrapper("ﺕﺎﻳدﺎﻌﻟﺍ"),//al adiyat
+    toUnicodeWrapper("ﺔﻋرﺎﻘﻟﺍ"), //al qari'ah
+    toUnicodeWrapper("ﺮﺛﺎﻜﺘﻟﺍ"), //al takathur
+    toUnicodeWrapper("ﺮﺼﻌﻟﺍ"), //al asr
+    toUnicodeWrapper("ﺓﺰﻤﻬﻟﺍ"), //al humazah
+    toUnicodeWrapper("ﻞﻴﻔﻟﺍ"), //al fil
+    toUnicodeWrapper("ﺶﻳﺮﻗ"), //quraish
+    toUnicodeWrapper("نﻮﻋﺎﻤﻟﺍ"), //al ma'un
+    toUnicodeWrapper("ﺮﺛﻮﻜﻟﺍ"), //al kawthar
+    toUnicodeWrapper("نوﺮﻓﺎﻜﻟﺍ"), //al kafirun
+    toUnicodeWrapper("ﺮﺼﻨﻟﺍ"), //al nasr
+    toUnicodeWrapper("ﺪﺴﻤﻟﺍ"), //al masad
+    toUnicodeWrapper("صﻼﺧﻹﺍ"), //al ikhlas
+    toUnicodeWrapper("ﻖﻠﻔﻟﺍ"), //al falaq
+    toUnicodeWrapper("\u{FEB1}\u{FE8E}\u{FEE8}\u{FEDF}\u{FE8D}"), //al nas
 };
 
 var state = enum {
