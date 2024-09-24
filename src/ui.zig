@@ -189,8 +189,8 @@ pub fn drawUi(window: *sf.RenderWindow, sprite: *sf.Sprite) !void {
                     page_number = 0;
                 }
             }
-            if (try imguiButton(window, .{ .left = 0, .top = WINDOW_HEIGHT - BUTTON_HEIGHT, .width = WINDOW_WIDTH / 3, .height = BUTTON_HEIGHT }, sf.toUnicodeComptime("ﻲﻟﺎﺘﻟﺍ")) and page_number < 5) page_number += 1;
-            if (try imguiButton(window, .{ .left = WINDOW_WIDTH - (WINDOW_WIDTH / 3), .top = WINDOW_HEIGHT - BUTTON_HEIGHT, .width = WINDOW_WIDTH / 3, .height = BUTTON_HEIGHT }, sf.toUnicodeComptime("ﻖﺑﺎﺴﻟﺍ")) and page_number > 0) page_number -= 1;
+            if (try imguiButton(window, .{ .left = WINDOW_WIDTH - (WINDOW_WIDTH / 3), .top = WINDOW_HEIGHT - BUTTON_HEIGHT, .width = WINDOW_WIDTH / 3, .height = BUTTON_HEIGHT }, sf.toUnicodeComptime("ﻲﻟﺎﺘﻟﺍ")) and page_number < 5) page_number += 1;
+            if (try imguiButton(window, .{ .left = 0, .top = WINDOW_HEIGHT - BUTTON_HEIGHT, .width = WINDOW_WIDTH / 3, .height = BUTTON_HEIGHT }, sf.toUnicodeComptime("ﻖﺑﺎﺴﻟﺍ")) and page_number > 0) page_number -= 1;
         },
         .Hizb => {
             for (20 * page_number..page_number * 20 + 20) |i| {
@@ -200,8 +200,8 @@ pub fn drawUi(window: *sf.RenderWindow, sprite: *sf.Sprite) !void {
                     page_number = 0;
                 }
             }
-            if (try imguiButton(window, .{ .left = 0, .top = WINDOW_HEIGHT - BUTTON_HEIGHT, .width = WINDOW_WIDTH / 3, .height = BUTTON_HEIGHT }, sf.toUnicodeComptime("ﻲﻟﺎﺘﻟﺍ")) and page_number < 2) page_number += 1;
-            if (try imguiButton(window, .{ .left = WINDOW_WIDTH - (WINDOW_WIDTH / 3), .top = WINDOW_HEIGHT - BUTTON_HEIGHT, .width = WINDOW_WIDTH / 3, .height = BUTTON_HEIGHT }, sf.toUnicodeComptime("ﻖﺑﺎﺴﻟﺍ")) and page_number > 0) page_number -= 1;
+            if (try imguiButton(window, .{ .left = WINDOW_WIDTH - (WINDOW_WIDTH / 3), .top = WINDOW_HEIGHT - BUTTON_HEIGHT, .width = WINDOW_WIDTH / 3, .height = BUTTON_HEIGHT }, sf.toUnicodeComptime("ﻲﻟﺎﺘﻟﺍ")) and page_number < 2) page_number += 1;
+            if (try imguiButton(window, .{ .left = 0, .top = WINDOW_HEIGHT - BUTTON_HEIGHT, .width = WINDOW_WIDTH / 3, .height = BUTTON_HEIGHT }, sf.toUnicodeComptime("ﻖﺑﺎﺴﻟﺍ")) and page_number > 0) page_number -= 1;
         },
         .None => {
             if (is_mouse_button_left_pressed) state = .Menu;
