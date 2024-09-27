@@ -19,7 +19,7 @@ const downloadImagesWrapper = @import("download_images.zig").downloadImagesWrapp
 pub const font_data = @embedFile("res/18_Khebrat_Musamim_Regular.ttf");
 pub var font: sf.Font = undefined;
 
-pub var is_mouse_button_left_pressed: bool = false;
+pub var is_mouse_button_left_just_pressed: bool = false;
 pub var mouse_position: sf.Vector2i = undefined;
 
 const WINDOW_WIDTH = @import("bismi_allah.zig").WINDOW_WIDTH;
@@ -204,7 +204,7 @@ pub fn drawUi(window: *sf.RenderWindow, sprite: *sf.Sprite) !void {
             if (try imguiButton(window, .{ .left = 0, .top = WINDOW_HEIGHT - BUTTON_HEIGHT, .width = WINDOW_WIDTH / 3, .height = BUTTON_HEIGHT }, sf.toUnicodeComptime("ﻖﺑﺎﺴﻟﺍ")) and page_number > 0) page_number -= 1;
         },
         .None => {
-            if (is_mouse_button_left_pressed) state = .Menu;
+            if (is_mouse_button_left_just_pressed) state = .Menu;
         },
         .Menu => {
             if (try imguiButton(window, .{ .top = (WINDOW_HEIGHT / 4), .left = WINDOW_WIDTH / 4, .width = WINDOW_WIDTH / 2, .height = BUTTON_HEIGHT }, sf.toUnicodeComptime("رﻮﺴﻟﺍ"))) state = .Surah;
@@ -257,7 +257,7 @@ fn imguiButton(window: *sf.RenderWindow, rect: sf.Rect(f32), message: [:0]const 
     window.draw(button, null);
     window.draw(text_message, null);
 
-    if (!is_mouse_button_left_pressed) return false;
+    if (!is_mouse_button_left_just_pressed) return false;
     // const mouse_pos = window.mapPixelToCoords(sf.mouse.getPosition(window.*), window.getView());
     return rect.contains(window.mapPixelToCoords(mouse_position, window.getView()));
 }

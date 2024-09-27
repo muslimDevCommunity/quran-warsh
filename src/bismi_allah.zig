@@ -82,6 +82,7 @@ pub fn main() !void {
     page_navigator.goToPage(&quran_sprite, page_navigator.current_page);
 
     while (window.waitEvent()) |event| {
+        ui.is_mouse_button_left_just_pressed = false;
         switch (event) {
             .closed => {
                 window.close();
@@ -133,10 +134,10 @@ pub fn main() !void {
                 // }
             },
             .mouse_button_pressed => {
-                if (event.mouse_button_pressed.button == .left) ui.is_mouse_button_left_pressed = true;
+                if (event.mouse_button_pressed.button == .left) ui.is_mouse_button_left_just_pressed = true;
             },
             .mouse_button_released => {
-                if (event.mouse_button_released.button == .left) ui.is_mouse_button_left_pressed = false;
+                if (event.mouse_button_released.button == .left) ui.is_mouse_button_left_just_pressed = false;
             },
             .mouse_moved => {
                 ui.mouse_position = event.mouse_moved.pos;
