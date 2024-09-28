@@ -2,7 +2,7 @@
 //la ilaha illa Allah Mohammed Rassoul Allah
 const std = @import("std");
 
-const page_navigator = @import("page_navigator.zig");
+const NUMBER_OF_PAGES = @import("page_navigator.zig").NUMBER_OF_PAGES;
 
 var is_downloading_images = false;
 /// `app_data_dir_path` should be set in `bismi_allah.zig`
@@ -41,7 +41,7 @@ fn downloadImages() !void {
     var images_dir = try std.fs.openDirAbsolute(images_dir_path, .{});
     defer images_dir.close();
 
-    for (0..page_navigator.NUMBER_OF_PAGES) |i| {
+    for (0..NUMBER_OF_PAGES) |i| {
         var image_file_path_buffer: [112]u8 = undefined;
         var uri_buffer: [2048]u8 = undefined;
 
