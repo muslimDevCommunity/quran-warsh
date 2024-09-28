@@ -103,13 +103,13 @@ pub fn main() !void {
                         .num7 => page_navigator.bookmarks[7] = page_navigator.current_page,
                         .num8 => page_navigator.bookmarks[8] = page_navigator.current_page,
                         .num9 => page_navigator.bookmarks[9] = page_navigator.current_page,
-                        else => {},
+                        else => continue,
                     }
                 } else if (event.key_pressed.control) {
                     switch (event.key_pressed.code) {
                         .left => page_navigator.goToNextHizb(&quran_sprite),
                         .right => page_navigator.goToPreviousHizb(&quran_sprite),
-                        else => {},
+                        else => continue,
                     }
                 } else {
                     switch (event.key_pressed.code) {
@@ -125,7 +125,7 @@ pub fn main() !void {
                         .num7 => page_navigator.goToPage(&quran_sprite, page_navigator.bookmarks[7]),
                         .num8 => page_navigator.goToPage(&quran_sprite, page_navigator.bookmarks[8]),
                         .num9 => page_navigator.goToPage(&quran_sprite, page_navigator.bookmarks[9]),
-                        else => {},
+                        else => continue,
                     }
                 }
 
