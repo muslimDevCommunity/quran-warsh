@@ -141,6 +141,14 @@ pub fn main() !void {
             },
             .mouse_moved => {
                 ui.mouse_position = event.mouse_moved.pos;
+                // before the mouse gets to the desired position,
+                // it emits many `.mouse_moved` events delaying
+                // the process of `.mouse_button_pressed` which
+                // actually needs ui update
+                //
+                // delays response to user because rerenders the
+                // ui without any changes
+                continue;
             },
             else => {},
         }
