@@ -3,6 +3,7 @@
 
 const std = @import("std");
 const compile_config = @import("compile_config");
+const builtin = @import("builtin");
 
 const sf = struct {
     const sfml = @import("sfml");
@@ -82,12 +83,16 @@ pub fn goToPage(sprite: *sf.Sprite, target_page: usize) void {
             // TODO: change the "{s}/{d}-scaled.jpg" to be "{s}/{d}{s}"
             //       the last {s} should be .[_][]u8 {".jpg", "-scaled.jpg", ".png"}
             const file_name_slice = std.fmt.bufPrintZ(&file_name_buffer, "{s}/{d}.jpg", .{ possible_quran_dir_path, target_page }) catch |e| {
-                std.log.err("alhamdo li Allah error while writing to 'file_name_buffer': {any} target_page {d}\n", .{ e, target_page });
+                if (builtin.mode == .Debug) {
+                    std.log.err("alhamdo li Allah error while writing to 'file_name_buffer': {any} target_page {d}\n", .{ e, target_page });
+                }
                 continue;
             };
 
             var texture = sf.Texture.createFromFile(file_name_slice) catch |e| {
-                std.log.err("alhamdo li Allah error while callings 'sf.Texture.createFromFile()' err: '{any}' \n", .{e});
+                if (builtin.mode == .Debug) {
+                    std.log.err("alhamdo li Allah error while callings 'sf.Texture.createFromFile()' err: '{any}' \n", .{e});
+                }
                 continue;
             };
             texture.setSmooth(true);
