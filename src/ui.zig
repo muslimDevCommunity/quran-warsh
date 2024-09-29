@@ -227,7 +227,7 @@ pub fn drawUi(window: *sf.RenderWindow, sprite: *sf.Sprite) !void {
             }
         },
     }
-    if (state != .None and try imguiButton(window, .{ .top = 0, .left = 0, .width = WINDOW_WIDTH / 5, .height = BUTTON_HEIGHT }, sf.toUnicodeComptime("ﻖﻠﻏأ"))) {
+    if (state != .None and try imguiButton(window, .{ .top = 0, .left = WINDOW_WIDTH - (WINDOW_WIDTH / 5), .width = WINDOW_WIDTH / 5, .height = BUTTON_HEIGHT }, sf.toUnicodeComptime("ﻖﻠﻏأ"))) {
         state = .None;
         page_number = 0;
     }
