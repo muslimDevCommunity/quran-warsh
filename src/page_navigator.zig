@@ -58,7 +58,7 @@ pub var possible_quran_dir_paths_buffers: [4][]u8 = .{
     // this is set by 'src/bismi_allah.zig:get_self_exe_dir_path' block
     // "res" is just a placeholder in case of error
     @constCast("res"),
-    @constCast("/usr/share/quran_pictures"),
+    @constCast("/usr/share/quran-warsh"),
     // alhamdo li Allah
     // for this "res" it looks in the path relative to the caller (just in case)
     @constCast("res"),
