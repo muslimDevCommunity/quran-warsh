@@ -31,6 +31,7 @@ jobs:
           cp -r src build.zig* quran-warsh-${{ steps.get_release.outputs.tag_name }}
           tar -czf quran-warsh-${{ steps.get_release.outputs.tag_name }}.tar.gz quran-warsh-${{ steps.get_release.outputs.tag_name }}
           cp -r release_packages/rpm/rpmbuild .
+          mkdir -p rpmbuild/{BUILD, RPMS, SOURCES, SRPMS}
           mv quran-warsh-${{ steps.get_release.outputs.tag_name }}.tar.gz rpmbuild/SOURCES
 
       - name: logs
