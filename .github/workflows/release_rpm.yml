@@ -33,6 +33,9 @@ jobs:
           cp -r release_packages/rpm/rpmbuild .
           mv quran-warsh-${{ steps.get_release.outputs.tag_name }}.tar.gz rpmbuild/SOURCES
 
+      - name: logs
+        run: tree
+
       - name: Build RPM
         run: |
           docker build . -f release_packages/rpm/Dockerfile_rpm -t bismi_allah_build_rpm --build-arg VERSION=${{ steps.get_release.outputs.tag_name }}
