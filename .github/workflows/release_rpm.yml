@@ -55,7 +55,7 @@ jobs:
 
 
       - name: cleanup
-          rm packages/x86_64/quran-warsh-debug*
+          rm -f packages/x86_64/quran-warsh-debug*
 
       # - name: Compress binary and DLL
       #   run: |
