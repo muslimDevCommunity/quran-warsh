@@ -55,7 +55,7 @@ jobs:
 
 
       - name: cleanup
-        run: rm -f packages/x86_64/quran-warsh-debug*
+        run: rm -f packages/quran-warsh-debug*
 
       # - name: Compress binary and DLL
       #   run: |
@@ -64,7 +64,7 @@ jobs:
       #     zip -ur quran-warsh_${{ steps.get_release.outputs.tag_name }}_win64.zip res
 
       - name: Get Package file name
-        run: echo "FILE_NAME=$(find packages/x86_64 -type f)" >> $GITHUB_ENV
+        run: echo "FILE_NAME=$(find packages -type f)" >> $GITHUB_ENV
 
       # - name: Upload compressed binary to release
       #   uses: actions/upload-release-asset@v1
