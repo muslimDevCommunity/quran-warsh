@@ -37,7 +37,7 @@ jobs:
           mkdir rpmbuild/SRPMS
           mv quran-warsh-${{ steps.get_release.outputs.tag_name }}.tar.gz rpmbuild/SOURCES/quran-warsh-${{ steps.get_release.outputs.tag_name }}.tar.gz
 
-      - name: logs
+      - name: logs before build
         run: |
           tree rpmbuild
           tree
@@ -47,6 +47,14 @@ jobs:
           docker build . -f release_packages/rpm/Dockerfile_rpm -t bismi_allah_build_rpm --build-arg VERSION=${{ steps.get_release.outputs.tag_name }}
           docker create --name bismi_allah_build_rpm bismi_allah_build_rpm
           docker cp bismi_allah_build_rpm:/root/rpmbuild/RPMS/x86_64 packages/
+
+      - name: Logs after buils
+        run: |
+          tree packages
+          tree
+
+
+      - name: cleanup
           rm packages/x86_64/quran-warsh-debug*
 
       # - name: Compress binary and DLL
