@@ -30,7 +30,7 @@ jobs:
         with:
           version: 0.13.0
 
-      -name: Install csfml
+      - name: Install csfml
         run: echo 'Y' | sudo apt install libcsfml-dev
 
       - name: Compile quran-warsh
