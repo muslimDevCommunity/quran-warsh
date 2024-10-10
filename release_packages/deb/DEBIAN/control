@@ -4,5 +4,5 @@ Section: base
 Priority: optional
 Architecture: amd64
 Maintainer: Ibrahim Ouhamou <ouhamouy10@gmail.com>
-Depends: libcsfml-graphics2.6
+Depends: libcsfml-graphics2.5
 Description: tajweed quran in the warsh (ورش) reading
