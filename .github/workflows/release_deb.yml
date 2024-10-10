@@ -32,7 +32,7 @@ jobs:
 
       - name: Install csfml
         run: |
-          echo 'Y' | sudo apt upgrade
+          echo 'Y' | sudo apt update
           echo 'Y' | sudo apt install libcsfml-dev
 
       - name: Compile quran-warsh
