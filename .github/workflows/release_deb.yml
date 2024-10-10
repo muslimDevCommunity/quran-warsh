@@ -52,11 +52,11 @@ jobs:
 
       - name: Change package file name
         run:
-          mv quran-warsh.deb quran-warsh-{{ steps.get_release.outputs.tag_name }}.deb
+          mv quran-warsh.deb quran-warsh-${{ steps.get_release.outputs.tag_name }}.deb
 
       - name: Upload Release Asset
         uses: softprops/action-gh-release@v2
         with:
-          files: quran-warsh-{{ steps.get_release.outputs.tag_name }}.deb
+          files: quran-warsh-${{ steps.get_release.outputs.tag_name }}.deb
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
