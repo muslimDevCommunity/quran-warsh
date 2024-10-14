@@ -1,0 +1,8 @@
+Package: quran-warsh
+Version: 1.0.0
+Section: base
+Priority: optional
+Architecture: amd64
+Maintainer: Ibrahim Ouhamou <ouhamouy10@gmail.com>
+Depends: libcsfml-graphics2.6
+Description: tajweed quran in the warsh (ورش) reading
