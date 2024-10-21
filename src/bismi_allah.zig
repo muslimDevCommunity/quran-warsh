@@ -2,6 +2,7 @@
 //la ilaha illa Allah Mohammed Rassoul Allah
 const std = @import("std");
 const compile_config = @import("compile_config");
+const builtin = @import("builtin");
 
 const sf = struct {
     const sfml = @import("sfml");
@@ -25,6 +26,7 @@ pub const WINDOW_WIDTH = 600;
 pub const WINDOW_HEIGHT = 900;
 
 // var flag_zoomed_in: bool = false;
+var app_data_dir_buffer_u16: if (builtin.os.tag == .windows) [1024]u16 else void = undefined;
 
 var fixed_buffer: [1024]u8 = undefined;
 pub var app_data_dir_path: []u8 = undefined;
@@ -44,6 +46,28 @@ pub fn main() !void {
     download_images.app_data_dir_path = app_data_dir_path;
 
     get_self_exe_dir_path: {
+        if (compile_config.embed_pictures) break :get_self_exe_dir_path;
+
+        if (builtin.os.tag == .windows) {
+            const dir_path_u16 = std.os.windows.GetModuleFileNameW(null, &app_data_dir_buffer_u16, app_data_dir_buffer_u16.len) catch |e| {
+                std.log.err("alhamdo li Allah error while getting exe path: '{any}'\n", .{e});
+                break :get_self_exe_dir_path;
+            };
+            const buffer = allocator.alloc(u8, dir_path_u16.len) catch |e| {
+                std.log.err("alhamdo li Allah error while allocating for exe path: '{any}'\n", .{e});
+                break :get_self_exe_dir_path;
+            };
+            errdefer allocator.free(buffer);
+
+            const path_len = std.unicode.utf16LeToUtf8(buffer, dir_path_u16) catch |e| {
+                std.log.err("alhamdo li Allah error while converting exe path from utf16 to utf8: '{any}'\n", .{e});
+                break :get_self_exe_dir_path;
+            };
+            page_navigator.possible_quran_dir_paths_buffers[1] = buffer[0..path_len];
+
+            break :get_self_exe_dir_path;
+        }
+
         const dir_path = std.fs.selfExeDirPathAlloc(allocator) catch |e| {
             std.log.err("alhamdo li Allah error while getting 'selfExeDirPathAlloc': {any}\n", .{e});
             break :get_self_exe_dir_path;
