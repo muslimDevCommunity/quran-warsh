@@ -1,0 +1,9 @@
+[Desktop Entry]
+# App name
+Name=quran warsh
+Comment=desktop Quran application with the warsh (ورش) reading
+Terminal=false
+Exec=quran-warsh
+Icon=/usr/share/icons/quran-warsh.svg
+Categories=Education;Religion;Literature;
+Type=Application

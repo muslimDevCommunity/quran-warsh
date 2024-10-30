@@ -1,0 +1,62 @@
+# بسم الله الرحمن الرحيم
+# la ilaha illa Allah Mohammed Rassoul Allah
+
+name: make deb package
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+      pull-requests: write
+      repository-projects: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Get release
+        id: get_release
+        uses: bruceadams/get-release@v1.3.2
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Install Zig
+        uses: goto-bus-stop/setup-zig@v2
+        with:
+          version: 0.13.0
+
+      - name: Install csfml
+        run: |
+          echo 'Y' | sudo apt update
+          echo 'Y' | sudo apt install libcsfml-dev=2.6.*
+
+      - name: Compile quran-warsh
+        run: zig build --release=safe
+
+      - name: Prepare deb package
+        run: |
+          mkdir quran-warsh
+          cp -r release_packages/deb/* quran-warsh
+          mkdir quran-warsh/usr/bin
+          mv zig-out/bin/quran-warsh quran-warsh/usr/bin/quran-warsh
+          mv zig-out/bin/res quran-warsh/usr/share/quran-warsh
+
+      - name: Build deb
+        run: |
+          dpkg --build quran-warsh
+
+      - name: Change package file name
+        run:
+          mv quran-warsh.deb quran-warsh-${{ steps.get_release.outputs.tag_name }}.deb
+
+      - name: Upload Release Asset
+        uses: softprops/action-gh-release@v2
+        with:
+          files: quran-warsh-${{ steps.get_release.outputs.tag_name }}.deb
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

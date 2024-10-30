@@ -1,0 +1,86 @@
+# بسم الله الرحمن الرحيم
+# la ilaha illa Allah Mohammed Rassoul Allah
+
+name: make rpm package
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      repository-projects: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Get release
+        id: get_release
+        uses: bruceadams/get-release@v1.3.2
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Prepare rpm Build
+        run: |
+          mkdir quran-warsh-${{ steps.get_release.outputs.tag_name }}
+          cp release_packages/rpm/quran-warsh.desktop src/quran-warsh.desktop
+          cp quran-warsh.svg src/quran-warsh.svg
+          cp -r src build.zig* quran-warsh-${{ steps.get_release.outputs.tag_name }}
+          tar -czf quran-warsh-${{ steps.get_release.outputs.tag_name }}.tar.gz quran-warsh-${{ steps.get_release.outputs.tag_name }}
+          cp -r release_packages/rpm/rpmbuild .
+          mkdir rpmbuild/BUILD
+          mkdir rpmbuild/RPMS
+          mkdir rpmbuild/SOURCES
+          mkdir rpmbuild/SRPMS
+          mv quran-warsh-${{ steps.get_release.outputs.tag_name }}.tar.gz rpmbuild/SOURCES/quran-warsh-${{ steps.get_release.outputs.tag_name }}.tar.gz
+
+      - name: logs before build
+        run: |
+          tree rpmbuild
+          tree
+
+      - name: Build RPM
+        run: |
+          docker build . -f release_packages/rpm/Dockerfile_rpm -t bismi_allah_build_rpm --build-arg VERSION=${{ steps.get_release.outputs.tag_name }}
+          docker create --name bismi_allah_build_rpm bismi_allah_build_rpm
+          docker cp bismi_allah_build_rpm:/root/rpmbuild/RPMS/x86_64 packages/
+
+      - name: Logs after buils
+        run: |
+          tree packages
+          tree
+
+
+      - name: cleanup
+        run: rm -f packages/quran-warsh-debug*
+
+      # - name: Compress binary and DLL
+      #   run: |
+      #     zip -j quran-warsh_${{ steps.get_release.outputs.tag_name }}_win64.zip zig-out/bin/quran-warsh.exe zig-out/bin/quran-warsh.pdb libs/CSFML/bin/csfml-graphics-2.dll
+      #     ln --symbolic src/res/ res
+      #     zip -ur quran-warsh_${{ steps.get_release.outputs.tag_name }}_win64.zip res
+
+      - name: Get Package file name
+        run: echo "FILE_NAME=$(find packages -type f)" >> $GITHUB_ENV
+
+      # - name: Upload compressed binary to release
+      #   uses: actions/upload-release-asset@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     upload_url: ${{ steps.get_release.outputs.upload_url }}
+      #     asset_path: ${{ env.FILE_NAME }}
+      #     asset_name: ${{ env.FILE_NAME }}
+      #     asset_content_type: application/zip
+
+      - name: Upload Release Asset
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ env.FILE_NAME }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
