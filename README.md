@@ -5,7 +5,7 @@ this is a desktop app for مصحف التجويد الملون
 
 the files were got from [Tajweed Quran - دار المعرفة](https://easyquran.com/ar/) from [these links](https://easyquran.com/wp-content/uploads/2022/10/1-scaled.jpg)
 
-![[application-pictures.png]]
+![screenshots](application-pictures.png?raw=true)
 
 # building
 install `zig 0.13`
