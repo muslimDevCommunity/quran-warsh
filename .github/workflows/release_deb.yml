@@ -43,7 +43,6 @@ jobs:
           mkdir quran-warsh
           cp -r release_packages/deb/* quran-warsh
           mkdir quran-warsh/usr/bin
-          mkdir quran-warsh/usr/share
           mv zig-out/bin/quran-warsh quran-warsh/usr/bin/quran-warsh
           mv zig-out/bin/res quran-warsh/usr/share/quran-warsh
 
