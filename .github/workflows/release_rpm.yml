@@ -28,6 +28,8 @@ jobs:
       - name: Prepare rpm Build
         run: |
           mkdir quran-warsh-${{ steps.get_release.outputs.tag_name }}
+          cp release_packages/rpm/quran-warsh.desktop src/quran-warsh.desktop
+          cp quran-warsh.svg src/quran-warsh.svg
           cp -r src build.zig* quran-warsh-${{ steps.get_release.outputs.tag_name }}
           tar -czf quran-warsh-${{ steps.get_release.outputs.tag_name }}.tar.gz quran-warsh-${{ steps.get_release.outputs.tag_name }}
           cp -r release_packages/rpm/rpmbuild .
