@@ -2,6 +2,7 @@
 la ilaha illa Allah Mohammed Rassoul Allah
 
 ![logo](quran-warsh.svg?raw=true)
+<img src="quran-warsh.svg" alt="logo" width="200">
 this is a desktop app for مصحف التجويد الملون
 
 the files were got from [Tajweed Quran - دار المعرفة](https://easyquran.com/ar/) from [these links](https://easyquran.com/wp-content/uploads/2022/10/1-scaled.jpg)
