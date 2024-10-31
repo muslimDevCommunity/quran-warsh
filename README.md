@@ -1,7 +1,6 @@
 بسم الله الرحمن الرحيم
 la ilaha illa Allah Mohammed Rassoul Allah
 
-![logo](quran-warsh.svg?raw=true)
 <img src="quran-warsh.svg" alt="logo" width="200">
 this is a desktop app for مصحف التجويد الملون
 
