@@ -238,23 +238,34 @@ fn imguiButton(window: *sf.RenderWindow, rect: sf.Rect(f32), message: [:0]const 
     button.setPosition(rect.getPosition());
     defer button.destroy();
 
-    // button.setFillColor(.{ .r = 0, .g = 0, .b = 0, .a = 0 });
-    button.setFillColor(sf.Color.Black);
+    button.setFillColor(sf.Color{ .r = 52, .g = 152, .b = 219, .a = 255 }); // Bright blue
+    button.setOutlineColor(sf.Color{ .r = 41, .g = 128, .b = 185, .a = 255 }); // Slightly darker blue for border
+    button.setOutlineThickness(2.0); // Slightly thicker border for emphasis
+
+    // Add a subtle shadow effect for depth
+    var shadow = try sf.RectangleShape.create(rect.getSize());
+    defer shadow.destroy();
+    shadow.setPosition(sf.Vector2f{ .x = rect.left + 3, .y = rect.top + 3 });
+    shadow.setFillColor(sf.Color{ .r = 0, .g = 0, .b = 0, .a = 50 }); // Semi-transparent black shadow
 
     var text_message = try sf.Text.createWithTextUnicode(message, font, @intFromFloat(rect.height * 0.75));
     defer text_message.destroy();
 
+    // Text styling for a modern and clean look
     text_message.setFillColor(sf.Color.White);
-    {
-        var final_text_pos = rect.getPosition();
+    text_message.setOutlineColor(sf.Color{ .r = 0, .g = 0, .b = 0, .a = 100 }); // Subtle text shadow
+    text_message.setOutlineThickness(1.0);
 
-        //TODO: make the '- 10' relative
-        final_text_pos.x = (rect.left + rect.width) - text_message.getGlobalBounds().width - 10;
-
-        text_message.setPosition(final_text_pos);
-    }
+    // Center the text with slight vertical adjustment
+    const text_bounds = text_message.getGlobalBounds();
+    const text_pos = sf.Vector2f{
+        .x = rect.left + (rect.width - text_bounds.width) / 2,
+        .y = rect.top + (rect.height - text_bounds.height) / 2 - 2, // Slight vertical adjustment
+    };
+    text_message.setPosition(text_pos);
 
     window.draw(button, null);
+    window.draw(shadow, null);
     window.draw(text_message, null);
 
     if (!is_mouse_button_left_just_pressed) return false;
